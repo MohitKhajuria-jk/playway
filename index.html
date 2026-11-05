@@ -3,347 +3,543 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Playway — Every website, one place. The internet curated and elevated.">
 <title>Playway — The Internet, Elevated</title>
+<meta name="description" content="Playway — every website, one place. A hand-picked directory of the best sites for search, social, news, shopping, learning, AI and more.">
+<link rel="canonical" href="https://mohitkhajuria-jk.github.io/playway/">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
 
-<!-- React + Babel -->
-<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<!-- Social previews (WhatsApp, LinkedIn, X) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Playway">
+<meta property="og:title" content="Playway — Every website. One place.">
+<meta property="og:description" content="A hand-picked directory of the best of the web, in a single fast page.">
+<meta property="og:url" content="https://mohitkhajuria-jk.github.io/playway/">
+<meta name="twitter:card" content="summary">
 
-<!-- Framer Motion -->
-<script src="https://cdn.jsdelivr.net/npm/framer-motion@11.0.3/dist/framer-motion.js"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232563eb'/%3E%3Cstop offset='1' stop-color='%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='url(%23g)'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-weight='700' fill='white' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Fonts: Geist (Vercel's font) + DM Sans -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<!-- Apply saved theme before first paint (no flash) -->
+<script>try{var t=localStorage.getItem('playway:theme');if(t)document.documentElement.dataset.theme=JSON.parse(t)}catch(e){}</script>
 
 <style>
+/* ═══════════ TOKENS ═══════════ */
 :root{
-  --bg:#fafafa;
-  --bg2:#f4f4f5;
-  --surface:rgba(255,255,255,0.75);
-  --surface2:rgba(255,255,255,0.55);
-  --border:rgba(0,0,0,0.07);
-  --border2:rgba(0,0,0,0.12);
-  --txt:#09090b;
-  --txt2:#52525b;
-  --txt3:#a1a1aa;
-  --blue:#2563eb;
-  --blue2:#3b82f6;
-  --indigo:#4f46e5;
-  --violet:#7c3aed;
-  --pink:#ec4899;
-  --green:#16a34a;
-  --amber:#d97706;
-  --red:#dc2626;
-  --ease:cubic-bezier(0.22,1,0.36,1);
-  --ease-back:cubic-bezier(0.34,1.56,0.64,1);
+  --bg:#fafafa; --bg-alt:#f4f4f5; --hero-top:#ffffff; --footer-bg:rgba(250,250,250,.9);
+  --txt:#09090b; --txt2:#52525b; --txt3:#71717a;
+  --muted:rgba(60,60,67,.66); --faint:rgba(60,60,67,.45);
+  --line:rgba(0,0,0,.07); --line2:rgba(0,0,0,.12);
+  --chip:rgba(0,0,0,.05); --chip-soft:rgba(0,0,0,.03); --chip-hover:rgba(0,0,0,.09); --chip-border:rgba(0,0,0,.07);
+  --card:rgba(255,255,255,.82); --card-solid:#fff; --card-border:rgba(255,255,255,.95);
+  --glass:rgba(255,255,255,.72); --glass-border:rgba(255,255,255,.9);
+  --panel:rgba(255,255,255,.65);
+  --nav:rgba(255,255,255,.72); --nav-scrolled:rgba(250,250,250,.88);
+  --icon-bg:rgba(255,255,255,.95);
+  --input:rgba(255,255,255,.9); --input-focus:#fff;
+  --shadow-card:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);
+  --shadow-card-hover:0 12px 40px rgba(0,0,0,.10);
+  --shadow-float:0 4px 24px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.05);
+  --ghost-num:rgba(0,0,0,.045);
+  --em:#4f46e5; --ink-mix:0%; --grain:.025; --cursor-blend:multiply;
+  --blue:#2563eb; --indigo:#4f46e5; --violet:#7c3aed; --pink:#ec4899;
+  --ease:cubic-bezier(.22,1,.36,1); --ease-back:cubic-bezier(.34,1.56,.64,1);
+  --nav-h:56px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#09090b; --bg-alt:#101013; --hero-top:#0b0b0f; --footer-bg:rgba(12,12,14,.92);
+    --txt:#fafafa; --txt2:#a1a1aa; --txt3:#a1a1aa;
+    --muted:rgba(235,235,245,.62); --faint:rgba(235,235,245,.4);
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --chip:rgba(255,255,255,.06); --chip-soft:rgba(255,255,255,.04); --chip-hover:rgba(255,255,255,.12); --chip-border:rgba(255,255,255,.09);
+    --card:rgba(24,24,27,.72); --card-solid:#18181b; --card-border:rgba(255,255,255,.08);
+    --glass:rgba(24,24,27,.62); --glass-border:rgba(255,255,255,.08);
+    --panel:rgba(18,18,21,.6);
+    --nav:rgba(9,9,11,.55); --nav-scrolled:rgba(9,9,11,.82);
+    --icon-bg:rgba(255,255,255,.06);
+    --input:rgba(255,255,255,.05); --input-focus:rgba(255,255,255,.08);
+    --shadow-card:0 1px 2px rgba(0,0,0,.4),0 2px 12px rgba(0,0,0,.25);
+    --shadow-card-hover:0 14px 44px rgba(0,0,0,.5);
+    --shadow-float:0 8px 32px rgba(0,0,0,.45);
+    --ghost-num:rgba(255,255,255,.045);
+    --em:#818cf8; --ink-mix:30%; --grain:.04; --cursor-blend:normal;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#09090b; --bg-alt:#101013; --hero-top:#0b0b0f; --footer-bg:rgba(12,12,14,.92);
+  --txt:#fafafa; --txt2:#a1a1aa; --txt3:#a1a1aa;
+  --muted:rgba(235,235,245,.62); --faint:rgba(235,235,245,.4);
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --chip:rgba(255,255,255,.06); --chip-soft:rgba(255,255,255,.04); --chip-hover:rgba(255,255,255,.12); --chip-border:rgba(255,255,255,.09);
+  --card:rgba(24,24,27,.72); --card-solid:#18181b; --card-border:rgba(255,255,255,.08);
+  --glass:rgba(24,24,27,.62); --glass-border:rgba(255,255,255,.08);
+  --panel:rgba(18,18,21,.6);
+  --nav:rgba(9,9,11,.55); --nav-scrolled:rgba(9,9,11,.82);
+  --icon-bg:rgba(255,255,255,.06);
+  --input:rgba(255,255,255,.05); --input-focus:rgba(255,255,255,.08);
+  --shadow-card:0 1px 2px rgba(0,0,0,.4),0 2px 12px rgba(0,0,0,.25);
+  --shadow-card-hover:0 14px 44px rgba(0,0,0,.5);
+  --shadow-float:0 8px 32px rgba(0,0,0,.45);
+  --ghost-num:rgba(255,255,255,.045);
+  --em:#818cf8; --ink-mix:30%; --grain:.04; --cursor-blend:normal;
+  color-scheme:dark;
 }
 
+/* ═══════════ BASE ═══════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
-  font-family:'DM Sans',system-ui,sans-serif;
-  background:var(--bg);color:var(--txt);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);color:var(--txt);overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  transition:background-color .3s;
 }
-::selection{background:rgba(37,99,235,0.15);color:var(--blue)}
+::selection{background:rgba(37,99,235,.18);color:var(--blue)}
 a{text-decoration:none;color:inherit}
-
-/* ─ scrollbar ─ */
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
 ::-webkit-scrollbar{width:7px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:4px}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:fixed;left:12px;top:-60px;z-index:10000;background:var(--txt);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;transition:top .2s}
+.skip:focus{top:12px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+kbd{font-family:inherit;font-size:10.5px;font-weight:600;border:1px solid var(--line2);border-bottom-width:2px;border-radius:5px;padding:0 6px;color:var(--txt3);background:var(--input)}
 
-/* ─ glass ─ */
-.glass{
-  background:rgba(255,255,255,0.72);
-  backdrop-filter:blur(28px) saturate(180%);
-  -webkit-backdrop-filter:blur(28px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.9);
-}
-.glass-subtle{
-  background:rgba(255,255,255,0.55);
-  backdrop-filter:blur(16px) saturate(160%);
-  -webkit-backdrop-filter:blur(16px) saturate(160%);
-  border:1px solid rgba(255,255,255,0.75);
-}
-.glass-card{
-  background:rgba(255,255,255,0.82);
-  backdrop-filter:blur(40px) saturate(200%);
-  -webkit-backdrop-filter:blur(40px) saturate(200%);
-  border:1px solid rgba(255,255,255,0.95);
-  box-shadow:0 2px 12px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.04);
-}
+/* grain + progress */
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:var(--grain);
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+#pg{position:fixed;top:0;left:0;right:0;z-index:9999;height:2px;transform-origin:left;transform:scaleX(0);
+  background:linear-gradient(90deg,#2563eb,#4f46e5,#7c3aed,#ec4899);box-shadow:0 0 8px rgba(37,99,235,.6)}
 
-/* ─ shadow system ─ */
-.shadow-xs{box-shadow:0 1px 3px rgba(0,0,0,0.05),0 1px 2px rgba(0,0,0,0.04)}
-.shadow-sm2{box-shadow:0 2px 8px rgba(0,0,0,0.07),0 1px 3px rgba(0,0,0,0.04)}
-.shadow-md2{box-shadow:0 4px 24px rgba(0,0,0,0.09),0 2px 6px rgba(0,0,0,0.05)}
-.shadow-lg2{box-shadow:0 12px 48px rgba(0,0,0,0.11),0 4px 12px rgba(0,0,0,0.06)}
-.shadow-xl2{box-shadow:0 24px 80px rgba(0,0,0,0.13),0 8px 24px rgba(0,0,0,0.07)}
-.shadow-glow-blue{box-shadow:0 0 0 1px rgba(37,99,235,0.15),0 8px 32px rgba(37,99,235,0.18)}
+/* ═══════════ BUTTONS ═══════════ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 24px;border-radius:980px;border:none;
+  font-weight:500;font-size:14px;letter-spacing:-.01em;cursor:pointer;transition:all .28s var(--ease);
+  position:relative;overflow:hidden;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;box-shadow:0 4px 20px rgba(37,99,235,.32),0 1px 0 rgba(255,255,255,.15) inset}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.15),transparent);border-radius:inherit}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(37,99,235,.42)}
+.btn-primary:active{transform:scale(.97)}
+.btn-secondary{background:var(--chip);color:var(--txt);border:1px solid var(--chip-border)}
+.btn-secondary:hover{background:var(--chip-hover);transform:translateY(-1px)}
+.btn-secondary:active{transform:scale(.97)}
+.btn-ghost{background:transparent;color:var(--blue)}
+.btn-ghost:hover{background:rgba(37,99,235,.08)}
+.btn-lg{font-size:15px;padding:13px 30px}
 
-/* ─ mesh gradient backgrounds ─ */
-.hero-mesh{
-  background:
-    radial-gradient(ellipse 80% 60% at 10% -5%,rgba(37,99,235,0.07) 0%,transparent 55%),
-    radial-gradient(ellipse 60% 50% at 90% 5%,rgba(124,58,237,0.06) 0%,transparent 55%),
-    radial-gradient(ellipse 50% 40% at 50% 95%,rgba(236,72,153,0.05) 0%,transparent 60%),
-    radial-gradient(ellipse 40% 35% at 75% 55%,rgba(79,70,229,0.04) 0%,transparent 60%),
-    linear-gradient(180deg,#ffffff 0%,#fafafa 100%);
-}
-.section-mesh-blue{background:radial-gradient(ellipse 60% 40% at 80% 20%,rgba(37,99,235,0.05) 0%,transparent 60%),#fafafa}
-.section-mesh-violet{background:radial-gradient(ellipse 60% 40% at 20% 80%,rgba(124,58,237,0.05) 0%,transparent 60%),#fafafa}
-.section-mesh-pink{background:radial-gradient(ellipse 60% 40% at 80% 80%,rgba(236,72,153,0.04) 0%,transparent 60%),#fafafa}
-.section-mesh-green{background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(22,163,74,0.05) 0%,transparent 60%),#fafafa}
-.section-alt{background:#f4f4f5}
-
-/* ─ gradient text ─ */
-.grad-blue-violet{
-  background:linear-gradient(135deg,#2563eb 0%,#4f46e5 45%,#7c3aed 80%,#ec4899 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;background-size:200% 200%;
-}
-.grad-slate{
-  background:linear-gradient(180deg,#09090b 0%,rgba(9,9,11,0.65) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-
-/* ─ noise grain ─ */
-.grain{
-  position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ─ progress bar ─ */
-#pg{position:fixed;top:0;left:0;z-index:9999;height:2px;
-  background:linear-gradient(90deg,#2563eb,#4f46e5,#7c3aed,#ec4899);
-  transition:width 0.08s linear;box-shadow:0 0 8px rgba(37,99,235,0.6)}
-
-/* ─ nav ─ */
-.nav-pill-link{
-  font-size:13px;font-weight:400;color:var(--txt2);padding:5px 12px;
-  border-radius:7px;cursor:pointer;transition:all 0.2s var(--ease);
-  white-space:nowrap;
-}
-.nav-pill-link:hover{color:var(--txt);background:rgba(0,0,0,0.05)}
-
-/* ─ buttons ─ */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:11px 24px;border-radius:980px;border:none;outline:none;
-  font-family:'DM Sans',sans-serif;font-weight:500;font-size:14px;
-  letter-spacing:-0.01em;cursor:pointer;transition:all 0.28s var(--ease);
-  position:relative;overflow:hidden;white-space:nowrap;
-}
-.btn-primary{
-  background:linear-gradient(135deg,#2563eb,#4f46e5);
-  color:white;box-shadow:0 4px 20px rgba(37,99,235,0.32),0 1px 0 rgba(255,255,255,0.15) inset;
-}
-.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.15),transparent);border-radius:inherit}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 32px rgba(37,99,235,0.42)}
-.btn-primary:active{transform:scale(0.97)}
-.btn-secondary{
-  background:rgba(0,0,0,0.06);color:var(--txt);
-  border:1px solid rgba(0,0,0,0.09);
-}
-.btn-secondary:hover{background:rgba(0,0,0,0.09);transform:translateY(-1px)}
-.btn-secondary:active{transform:scale(0.97)}
-.btn-ghost{background:transparent;color:var(--blue);font-weight:500}
-.btn-ghost:hover{background:rgba(37,99,235,0.07)}
-
-/* ─ input ─ */
-.input-field{
-  width:100%;padding:11px 16px;border-radius:12px;
-  background:rgba(255,255,255,0.9);border:1px solid rgba(0,0,0,0.11);
-  font-family:'DM Sans',sans-serif;font-size:14px;color:var(--txt);
-  outline:none;transition:all 0.25s var(--ease);
-  backdrop-filter:blur(8px);
-}
-.input-field:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.14);background:white}
+/* ═══════════ NAV ═══════════ */
+.nav{position:fixed;inset:0 0 auto;z-index:500;height:var(--nav-h);
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:24px;padding:0 32px;
+  background:var(--nav);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);
+  border-bottom:1px solid transparent;transition:background .4s var(--ease),border-color .4s var(--ease)}
+.nav.scrolled{background:var(--nav-scrolled);border-bottom-color:var(--line)}
+.brand{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;letter-spacing:-.04em;flex-shrink:0}
+.logo{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:grid;place-items:center;
+  color:#fff;font:400 16px 'DM Serif Display',serif;letter-spacing:0;box-shadow:0 2px 8px rgba(37,99,235,.35)}
+.wordmark b{color:var(--blue);font-weight:inherit}
+.nav-links{justify-self:center;min-width:0;max-width:100%;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+  background:var(--chip-soft);border:1px solid var(--chip-border);border-radius:12px;padding:3px 4px}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:12.5px;color:var(--txt2);padding:5px 9px;border-radius:8px;white-space:nowrap;transition:color .2s,background .2s,box-shadow .2s}
+.nav-links a:hover{color:var(--txt);background:var(--chip)}
+.nav-links a.active{color:var(--txt);background:var(--card-solid);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.search{position:relative;width:224px}
+.search>svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.45;pointer-events:none}
+.input-field{width:100%;padding:8px 34px;border-radius:10px;background:var(--input);border:1px solid var(--line2);font-size:13px;outline:none;
+  transition:border-color .25s var(--ease),box-shadow .25s var(--ease),background .25s}
+.input-field:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.16);background:var(--input-focus)}
 .input-field::placeholder{color:var(--txt3)}
+.input-field::-webkit-search-cancel-button{display:none}
+.search kbd{position:absolute;right:9px;top:50%;transform:translateY(-50%);pointer-events:none}
+.search.has-q kbd{display:none}
+.clear{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;border:none;
+  background:var(--chip-hover);display:grid;place-items:center;cursor:pointer;font-size:10px;color:var(--txt2)}
+.icon-btn{width:34px;height:34px;border-radius:10px;border:1px solid var(--line2);background:var(--input);display:grid;place-items:center;
+  cursor:pointer;color:var(--txt2);transition:color .2s,background .2s;flex-shrink:0}
+.icon-btn:hover{color:var(--txt);background:var(--chip)}
+.icon-btn .i-sun{display:none}
+.is-dark .icon-btn .i-sun{display:block}
+.is-dark .icon-btn .i-moon{display:none}
 
-/* ─ tag ─ */
-.tag{
-  display:inline-block;font-size:10px;font-weight:600;
-  letter-spacing:0.05em;text-transform:uppercase;
-  padding:3px 10px;border-radius:980px;
-  background:rgba(0,0,0,0.05);color:var(--txt3);
-  border:1px solid rgba(0,0,0,0.07);
+@media (max-width:1199px){
+  :root{--nav-h:96px}
+  .nav{grid-template-columns:auto minmax(0,1fr);grid-template-rows:36px 34px;grid-template-areas:"brand right" "links links";
+    row-gap:8px;column-gap:16px;padding:9px 24px}
+  .brand{grid-area:brand}
+  .nav-right{grid-area:right;justify-self:end}
+  .nav-links{grid-area:links}
 }
+@media (max-width:640px){
+  .nav{padding:9px 16px}
+  .nav-right{justify-self:stretch}
+  .search{flex:1;width:auto}
+  .search kbd{display:none}
+}
+@media (hover:none){.search kbd{display:none}}
 
-/* ─ section divider ─ */
-.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.08) 20%,rgba(0,0,0,0.08) 80%,transparent)}
-
-/* ─ floating card ─ */
+/* ═══════════ HERO ═══════════ */
+.hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:calc(var(--nav-h) + 48px) 24px 104px;position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% -5%,rgba(37,99,235,.07) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 90% 5%,rgba(124,58,237,.06) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 95%,rgba(236,72,153,.05) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 35% at 75% 55%,rgba(79,70,229,.04) 0%,transparent 60%),
+    linear-gradient(180deg,var(--hero-top) 0%,var(--bg) 100%)}
+.px{translate:calc(var(--mx,0) * var(--s,20) * -1px) calc(var(--my,0) * var(--s,20) * -1px);transition:translate .8s var(--ease)}
+.h-orb{position:absolute;border-radius:50%;pointer-events:none}
+.float-card{position:absolute;z-index:2;text-align:left}
+.float-inner{background:var(--card);backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);
+  border:1px solid var(--card-border);box-shadow:var(--shadow-float);border-radius:16px;padding:16px;width:192px}
+.float-inner .fi{font-size:20px;margin-bottom:8px}
+.float-inner .fn{font-size:13px;font-weight:600;margin-bottom:2px}
+.float-inner .fd{font-size:11px;color:var(--txt3)}
+.float-inner .ft{margin-top:8px;font-size:10px;background:rgba(37,99,235,.1);color:var(--blue);padding:2px 8px;border-radius:980px;
+  display:inline-block;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
 .floating{animation:floatY 5s ease-in-out infinite}
 .floating2{animation:floatY 6.5s ease-in-out infinite 1.5s}
-.floating3{animation:floatY 4.5s ease-in-out infinite 0.8s}
+.floating3{animation:floatY 4.5s ease-in-out infinite .8s}
 @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media (max-width:1279px){.float-card{display:none}}
 
-/* ─ live dot ─ */
+.hero-content{position:relative;z-index:10;max-width:780px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--line);border-radius:980px;padding:7px 18px;margin-bottom:32px;box-shadow:0 2px 12px rgba(0,0,0,.06);
+  font-size:12.5px;font-weight:500;color:var(--muted)}
 .live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;position:relative;flex-shrink:0}
-.live-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(34,197,94,0.3);animation:livePing 2s ease-out infinite}
-@keyframes livePing{0%{transform:scale(1);opacity:0.6}70%{transform:scale(1.8);opacity:0}100%{transform:scale(1.8);opacity:0}}
+.live-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(34,197,94,.3);animation:livePing 2s ease-out infinite}
+@keyframes livePing{0%{transform:scale(1);opacity:.6}70%,100%{transform:scale(1.8);opacity:0}}
+.hero-display{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(52px,10vw,118px);letter-spacing:-.03em;line-height:.95;margin-bottom:28px}
+.hero-display em{font-style:italic;color:var(--em)}
+.hero-sub{font-size:clamp(17px,2vw,21px);font-weight:300;color:var(--txt2);max-width:520px;margin:0 auto 44px;line-height:1.58;letter-spacing:-.01em}
+.ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
+.meta{display:inline-flex;flex-wrap:wrap;justify-content:center;border-radius:980px;overflow:hidden;
+  background:var(--glass);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);
+  border:1px solid var(--glass-border);box-shadow:0 1px 3px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.04)}
+.meta span{display:flex;align-items:center;gap:8px;padding:11px 22px;font-size:12.5px;font-weight:500;color:var(--muted)}
+.meta span+span{border-left:1px solid var(--line)}
+.meta i{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.hint{margin-top:20px;font-size:12px;color:var(--faint);display:flex;gap:6px;justify-content:center;align-items:center;flex-wrap:wrap}
+@media (hover:none){.hint .k{display:none}}
+.scroll-ind{position:absolute;bottom:36px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.scroll-ind .ln{width:1px;height:38px;background:linear-gradient(180deg,var(--line2),transparent);animation:floatY 2s ease-in-out infinite}
+.scroll-ind span{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+@media (max-width:768px){.hero-display{font-size:clamp(42px,12vw,80px)}}
+@media (max-width:560px){
+  .meta{flex-direction:column;border-radius:18px}
+  .meta span{justify-content:center}
+  .meta span+span{border-left:none;border-top:1px solid var(--line)}
+  .scroll-ind{display:none}
+}
 
-/* ─ marquee ─ */
+/* ═══════════ MARQUEE ═══════════ */
+.mq-wrap{overflow:hidden;border-block:1px solid var(--line);background:var(--panel);padding:15px 0;position:relative}
+.mq-wrap::before,.mq-wrap::after{content:'';position:absolute;top:0;bottom:0;width:140px;z-index:2;pointer-events:none}
+.mq-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.mq-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
 .mq-track{display:flex;width:max-content;animation:mq 36s linear infinite}
 .mq-wrap:hover .mq-track{animation-play-state:paused}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mq-track span{display:inline-flex;align-items:center;gap:12px;padding:0 28px;font-size:11px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.mq-track b{font-size:6px;color:var(--blue);opacity:.5}
 
-/* ─ stat counter ─ */
-.stat-num{font-family:'DM Serif Display',serif;font-size:52px;letter-spacing:-0.04em;line-height:1}
-
-/* ─ icon box ─ */
-.icon-box{
-  width:48px;height:48px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;flex-shrink:0;
-  background:rgba(255,255,255,0.95);
-  box-shadow:0 2px 8px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
-  transition:all 0.3s var(--ease-back);
+/* ═══════════ STATS ═══════════ */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line);background:var(--panel)}
+.stat{padding:52px 28px;text-align:center;transition:background .3s}
+.stat+.stat{border-left:1px solid var(--line)}
+.stat:hover{background:color-mix(in srgb,var(--c) 5%,transparent)}
+.stat-num{font-family:'DM Serif Display',serif;font-size:52px;letter-spacing:-.04em;line-height:1;color:var(--c);margin-bottom:8px;font-variant-numeric:tabular-nums}
+.stat-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.stat-desc{font-size:12px;font-weight:300;color:var(--faint)}
+@media (max-width:768px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat{padding:36px 16px}
+  .stat:nth-child(3){border-left:none}
+  .stat:nth-child(n+3){border-top:1px solid var(--line)}
+  .stat-num{font-size:44px}
 }
 
-/* ─ hero typography ─ */
-.hero-display{
-  font-family:'DM Serif Display',serif;
-  font-size:clamp(56px,10vw,118px);
-  letter-spacing:-0.03em;line-height:0.95;
-  color:var(--txt);
-}
-.hero-display em{font-style:italic;color:#4f46e5}
+/* ═══════════ REVEAL ═══════════ */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .75s var(--ease) var(--d,0ms),transform .75s var(--ease) var(--d,0ms)}
+.rv-l{opacity:0;transform:translateX(-16px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv.in,.rv-l.in{opacity:1;transform:none}
 
-/* ─ section title ─ */
-.sec-title{
-  font-family:'DM Serif Display',serif;
-  font-size:clamp(38px,5vw,58px);
-  letter-spacing:-0.03em;line-height:0.97;color:var(--txt);
-}
-
-/* ─ number label ─ */
-.sec-num{
-  font-family:'DM Serif Display',serif;
-  font-size:clamp(72px,10vw,130px);
-  letter-spacing:-0.06em;line-height:1;
-  color:rgba(0,0,0,0.04);position:absolute;right:0;top:-20px;
-  pointer-events:none;user-select:none;
-}
-
-/* ─ card hover magic ─ */
-.x-card{
-  transition:transform 0.35s var(--ease),box-shadow 0.35s var(--ease),border-color 0.25s;
-  cursor:pointer;
-}
-.x-card:hover{transform:translateY(-5px) scale(1.015)}
-
-/* ─ grid layouts ─ */
-.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.cards-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.cards-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(max-width:1024px){.cards-4{grid-template-columns:repeat(2,1fr)}.cards-3{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.cards-4,.cards-3,.cards-2{grid-template-columns:1fr}}
-
-/* ─ sticky sidebar layout ─ */
+/* ═══════════ SECTIONS ═══════════ */
+.cat{padding:104px 0;position:relative;overflow:hidden;overflow:clip;scroll-margin-top:calc(var(--nav-h) - 48px)}
+.cat.alt{background:var(--bg-alt)}
+.cat,.card,.featured{--accent-ink:color-mix(in srgb,var(--accent),#fff var(--ink-mix))}
+.cat-orb{position:absolute;top:10%;width:400px;height:400px;border-radius:50%;filter:blur(60px);pointer-events:none;
+  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 7%,transparent),transparent 65%)}
+.cat-orb.r{right:5%}.cat-orb.l{left:5%}
 .sec-layout{display:grid;grid-template-columns:240px 1fr;gap:80px;align-items:start}
-.sec-sticky{position:sticky;top:88px}
-@media(max-width:900px){.sec-layout{grid-template-columns:1fr;gap:32px}.sec-sticky{position:static}.sec-num{display:none}}
+.sec-sticky{position:sticky;top:calc(var(--nav-h) + 34px)}
+.side{position:relative}
+.sec-num{font-family:'DM Serif Display',serif;font-size:clamp(72px,10vw,130px);letter-spacing:-.06em;line-height:1;color:var(--ghost-num);
+  position:absolute;right:0;top:-20px;pointer-events:none;user-select:none}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);opacity:.7}
+.sec-title{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(38px,5vw,58px);letter-spacing:-.03em;line-height:.97;margin-bottom:16px}
+.sec-count{font-size:14px;font-weight:300;color:var(--txt3);line-height:1.65;margin-bottom:20px}
+.meter{height:2px;background:var(--line);border-radius:2px;width:80px;overflow:hidden}
+.meter-fill{height:100%;background:var(--accent);border-radius:2px;width:100%;transition:width .4s var(--ease)}
+@media (max-width:900px){.sec-layout{grid-template-columns:1fr;gap:32px}.sec-sticky{position:static}.sec-num{display:none}}
+@media (max-width:640px){.wrap{padding:0 16px}.cat{padding:72px 0}}
 
-/* ─ featured card ─ */
-.feat-bg{
-  background:linear-gradient(135deg,rgba(37,99,235,0.08) 0%,rgba(79,70,229,0.08) 40%,rgba(124,58,237,0.06) 70%,rgba(236,72,153,0.05) 100%);
-  border:1px solid rgba(37,99,235,0.15);
+.sep{display:flex;align-items:center;gap:20px;padding:0 32px;max-width:1200px;margin:0 auto}
+.sep i{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line2) 20%,var(--line2) 80%,transparent)}
+.sep span{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+
+.band{background:rgba(37,99,235,.06);border-block:1px solid rgba(37,99,235,.13);padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.band p{font-size:13px;font-weight:500;color:var(--muted)}
+.band .btn{font-size:12px;padding:6px 16px}
+
+/* ═══════════ CARDS ═══════════ */
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:1024px){.cards-3{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.cards-3{grid-template-columns:1fr}}
+.card{position:relative;transition:opacity .75s var(--ease) var(--d,0ms),transform .35s var(--ease)}
+.card:hover,.card.rv.in:hover{transform:translateY(-5px) scale(1.015)}
+.site{display:flex;flex-direction:column;height:100%;padding:22px;border-radius:16px;background:var(--card);
+  border:1px solid var(--card-border);box-shadow:var(--shadow-card);transition:box-shadow .35s var(--ease),border-color .25s}
+.card:hover .site{border-color:color-mix(in srgb,var(--accent) 28%,transparent);
+  box-shadow:var(--shadow-card-hover),0 0 0 1px color-mix(in srgb,var(--accent) 10%,transparent)}
+.site:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:16px}
+.site-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:14px;padding-right:34px}
+.icon-box{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:22px;flex-shrink:0;background:var(--icon-bg);
+  box-shadow:0 2px 8px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);transition:transform .35s var(--ease-back),background .3s}
+.card:hover .icon-box{background:color-mix(in srgb,var(--accent) 12%,var(--icon-bg));transform:scale(1.1) rotate(-3deg)}
+.tag{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:980px;background:var(--chip);
+  color:var(--muted);border:1px solid var(--chip-border);transition:all .25s;flex-shrink:0}
+.card:hover .tag{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent) 25%,transparent)}
+.site-name{font-size:15px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.site-desc{font-size:12.5px;font-weight:300;color:var(--txt3);line-height:1.6;flex-grow:1;margin-bottom:14px}
+.site-open{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--accent-ink);opacity:0;transform:translateX(-8px);transition:all .25s var(--ease)}
+.card:hover .site-open,.site:focus-visible .site-open{opacity:1;transform:none}
+@media (hover:none){.site-open{display:none}.site-desc{margin-bottom:0}}
+.star{position:absolute;top:18px;right:16px;z-index:2;width:28px;height:28px;border-radius:8px;border:none;background:transparent;
+  display:grid;place-items:center;cursor:pointer;color:var(--faint);transition:color .2s,background .2s,opacity .2s,transform .2s var(--ease-back)}
+.star:hover{background:var(--chip);color:var(--txt)}
+.star:active{transform:scale(.85)}
+.star[aria-pressed="true"]{color:#f59e0b}
+.star[aria-pressed="true"] path{fill:currentColor}
+@media (hover:hover){.star{opacity:0}.card:hover .star,.star:focus-visible,.star[aria-pressed="true"]{opacity:1}}
+
+/* featured */
+.featured{display:block;position:relative;overflow:hidden;margin-bottom:12px;border-radius:20px;padding:40px 44px;
+  background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(79,70,229,.09),rgba(124,58,237,.07));
+  border:1px solid rgba(37,99,235,.16);box-shadow:0 4px 24px rgba(0,0,0,.06);
+  transition:opacity .75s var(--ease),transform .4s var(--ease),box-shadow .4s var(--ease),border-color .3s}
+.featured:hover,.featured.rv.in:hover{transform:translateY(-3px);border-color:rgba(37,99,235,.3);box-shadow:0 16px 60px rgba(37,99,235,.15),0 4px 16px rgba(0,0,0,.06)}
+.featured .f-orb{position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(37,99,235,.14),transparent 70%);transition:transform .5s var(--ease)}
+.featured:hover .f-orb{transform:scale(1.12)}
+.f-row{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.f-left{display:flex;align-items:center;gap:18px}
+.f-icon{width:60px;height:60px;border-radius:18px;background:var(--icon-bg);display:grid;place-items:center;font-size:28px;flex-shrink:0;
+  box-shadow:0 4px 20px rgba(37,99,235,.2);transition:transform .35s var(--ease-back)}
+.featured:hover .f-icon{transform:scale(1.06) rotate(-2deg)}
+.f-eyebrow{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:6px}
+.f-title{font-family:'DM Serif Display',serif;font-size:26px;letter-spacing:-.02em;margin-bottom:6px}
+.f-desc{font-size:14px;font-weight:300;color:var(--muted);max-width:420px;line-height:1.55}
+.featured:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:20px}
+@media (max-width:640px){.featured{padding:28px 22px}.f-left{align-items:flex-start}}
+
+/* ═══════════ SEARCH RESULTS ═══════════ */
+.results{display:none;padding:calc(var(--nav-h) + 56px) 0 0}
+.searching .results{display:block}
+.searching .hide-on-search,.searching .featured{display:none!important}
+.searching .cat{padding:48px 0}
+.searching .sep{display:none}
+.results-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.results-title{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(32px,4.5vw,50px);letter-spacing:-.03em;line-height:1.05;margin-bottom:10px;overflow-wrap:anywhere}
+.results-title em{color:var(--em)}
+.results-sub{font-size:14px;font-weight:300;color:var(--txt3);margin-bottom:20px}
+.no-results{text-align:center;padding:72px 24px 120px}
+.no-results .nr-i{font-size:52px;margin-bottom:18px}
+.no-results h2{font-family:'DM Serif Display',serif;font-weight:400;font-size:26px;margin-bottom:10px}
+.no-results p{font-size:15px;color:var(--muted)}
+
+/* ═══════════ FOOTER ═══════════ */
+.footer{background:var(--footer-bg);border-top:1px solid var(--line);padding:80px 32px 48px}
+.footer-grid{max-width:1200px;margin:0 auto 56px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:52px}
+.footer-brand .brand{font-size:19px;margin-bottom:16px}
+.footer-brand p{font-size:13.5px;font-weight:300;color:var(--muted);line-height:1.72;max-width:240px}
+.foot-h{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:18px}
+.foot-col a{display:block;width:max-content;font-size:14px;font-weight:300;color:var(--muted);margin-bottom:10px;letter-spacing:-.01em;transition:color .2s}
+.foot-col a:hover{color:var(--txt)}
+.foot-bottom{max-width:1200px;margin:0 auto;padding-top:28px;border-top:1px solid var(--line);display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;font-weight:300;color:var(--faint)}
+.foot-bottom a{color:var(--muted);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.foot-bottom a:hover{color:var(--txt)}
+@media (max-width:768px){
+  .footer{padding:56px 20px 40px}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .footer-brand{grid-column:span 2}
 }
-.feat-bg:hover{border-color:rgba(37,99,235,0.28)}
 
-/* ─ footer ─ */
-.footer-bg{background:rgba(250,250,250,0.9);border-top:1px solid rgba(0,0,0,0.08)}
+/* ═══════════ CURSOR ═══════════ */
+#cursor,#cursor-ring{position:fixed;left:0;top:0;pointer-events:none;display:none;transition:opacity .3s}
+.has-cursor #cursor,.has-cursor #cursor-ring{display:block}
+#cursor{z-index:9997;width:8px;height:8px;border-radius:50%;background:var(--blue);mix-blend-mode:var(--cursor-blend);transition:scale .15s,opacity .3s}
+#cursor.down{scale:.5}
+#cursor-ring{z-index:9996;width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(37,99,235,.4);
+  transition:width .4s var(--ease),height .4s var(--ease),border-radius .3s,border-color .3s,opacity .3s}
+#cursor-ring.hot{width:52px;height:52px;border-radius:12px;border-color:rgba(37,99,235,.6)}
+.cursor-out #cursor,.cursor-out #cursor-ring{opacity:0}
 
-/* ─ reveal ─ */
-.rv{opacity:0;transform:translateY(20px);transition:opacity 0.75s var(--ease),transform 0.75s var(--ease)}
-.rv.in{opacity:1;transform:none}
-.rv-l{opacity:0;transform:translateX(-16px);transition:opacity 0.75s var(--ease),transform 0.75s var(--ease)}
-.rv-l.in{opacity:1;transform:none}
-
-/* ─ responsive nav ─ */
-@media(max-width:768px){
-  .nav-desktop{display:none!important}
-  .hero-display{font-size:clamp(44px,12vw,80px)}
-  .footer-grid{grid-template-columns:1fr 1fr!important}
-  footer .footer-brand{grid-column:span 2}
-  .stats-grid{grid-template-columns:repeat(2,1fr)!important}
+/* ═══════════ REDUCED MOTION ═══════════ */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0ms!important}
+  .rv,.rv-l{opacity:1!important;transform:none!important}
 }
-
-/* ─ custom cursor ─ */
-#cursor{
-  position:fixed;z-index:9997;pointer-events:none;
-  width:8px;height:8px;border-radius:50%;background:var(--blue);
-  transform:translate(-50%,-50%);
-  transition:transform 0.1s,width 0.3s,height 0.3s,opacity 0.3s;
-  mix-blend-mode:multiply;
-}
-#cursor-ring{
-  position:fixed;z-index:9996;pointer-events:none;
-  width:36px;height:36px;border-radius:50%;
-  border:1.5px solid rgba(37,99,235,0.4);
-  transform:translate(-50%,-50%);
-  transition:width 0.4s var(--ease),height 0.4s var(--ease),border-color 0.3s;
-}
-@media(hover:none){#cursor,#cursor-ring{display:none}}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to sites</a>
+<div class="grain" aria-hidden="true"></div>
+<div id="pg" aria-hidden="true"></div>
+<div id="cursor" aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
 
-<div class="grain"></div>
-<div id="pg" style="width:0%"></div>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-<div id="root"></div>
+<!-- ═══════════ NAV ═══════════ -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Playway, back to top">
+    <span class="logo" aria-hidden="true">P</span>
+    <span class="wordmark">Play<b>way</b></span>
+  </a>
+  <nav class="nav-links" id="navLinks" aria-label="Categories"></nav>
+  <div class="nav-right">
+    <div class="search" id="searchBox" role="search">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M9 9l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <label class="sr-only" for="q">Search sites</label>
+      <input id="q" class="input-field" type="search" placeholder="Search sites…" autocomplete="off" spellcheck="false">
+      <kbd aria-hidden="true">/</kbd>
+      <button class="clear" id="clearBtn" type="button" aria-label="Clear search" hidden>✕</button>
+    </div>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode">
+      <svg class="i-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="i-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero hide-on-search" id="top">
+  <div class="h-orb px" style="--s:20;top:5%;left:8%;width:480px;height:480px;background:radial-gradient(circle,rgba(37,99,235,.09),transparent 70%);filter:blur(50px)"></div>
+  <div class="h-orb px" style="--s:-18;bottom:5%;right:6%;width:380px;height:380px;background:radial-gradient(circle,rgba(124,58,237,.08),transparent 70%);filter:blur(42px)"></div>
+  <div class="h-orb px" style="--s:25;top:35%;right:10%;width:260px;height:260px;background:radial-gradient(circle,rgba(79,70,229,.07),transparent 70%);filter:blur(34px)"></div>
+
+  <div class="float-card px" style="--s:12;left:4%;top:22%" aria-hidden="true"><div class="float-inner floating">
+    <div class="fi">🔍</div><div class="fn">Google</div><div class="fd">Search engine</div><div class="ft">Universal</div>
+  </div></div>
+  <div class="float-card px" style="--s:-10;right:4%;top:28%" aria-hidden="true"><div class="float-inner floating2">
+    <div class="fi">🤖</div><div class="fn">Claude</div><div class="fd">AI assistant</div><div class="ft">Editor's Pick</div>
+  </div></div>
+  <div class="float-card px" style="--s:15;left:6%;bottom:18%" aria-hidden="true"><div class="float-inner floating3" style="width:176px">
+    <div class="fi">🎵</div><div class="fn">Spotify</div><div class="fd">Music streaming</div>
+  </div></div>
+
+  <div class="hero-content">
+    <div class="badge"><span class="live-dot"></span>The internet, curated</div>
+    <h1 class="hero-display">Every website.<br><em>One place.</em></h1>
+    <p class="hero-sub">Playway curates the very best of the web — search, social, news, shopping, entertainment and beyond.</p>
+    <div class="ctas">
+      <a href="#search" class="btn btn-primary btn-lg">Start exploring →</a>
+      <a href="#ai" class="btn btn-secondary btn-lg">Discover AI tools</a>
+    </div>
+    <div class="meta" id="heroMeta"></div>
+    <p class="hint"><span class="k">Press <kbd>/</kbd> to search ·</span><span>Tap ☆ on any site to pin it to the top</span></p>
+  </div>
+
+  <div class="scroll-ind" aria-hidden="true"><div class="ln"></div><span>Scroll</span></div>
+</section>
+
+<!-- ═══════════ MARQUEE + STATS ═══════════ -->
+<div class="mq-wrap hide-on-search" aria-hidden="true"><div class="mq-track" id="marquee"></div></div>
+<div class="stats rv hide-on-search" id="stats"></div>
+
+<main id="main">
+  <!-- Search results header -->
+  <div class="results" id="results">
+    <div class="wrap">
+      <p class="results-label">Search</p>
+      <h2 class="results-title" id="resultsTitle"></h2>
+      <p class="results-sub" id="resultsSub"></p>
+      <button class="btn btn-secondary" id="clearSearch" type="button">Clear search</button>
+    </div>
+  </div>
+  <div class="no-results" id="noResults" hidden>
+    <div class="nr-i" aria-hidden="true">🔍</div>
+    <h2>Nothing matches that yet</h2>
+    <p>Try a site name, a category like “music” or “travel”, or a tag like “free”.</p>
+  </div>
+  <p class="sr-only" id="status" role="status" aria-live="polite"></p>
+
+  <!-- Favourites -->
+  <section class="cat hide-on-search" id="favourites" style="--accent:#f59e0b" aria-labelledby="h-favourites" hidden>
+    <div class="cat-orb r"></div>
+    <div class="wrap"><div class="sec-layout">
+      <div class="sec-sticky"><div class="side">
+        <div class="eyebrow">★ — Favourites</div>
+        <h2 class="sec-title" id="h-favourites">Your picks.</h2>
+        <p class="sec-count" id="favCount"></p>
+      </div></div>
+      <div class="cards-3" id="favGrid"></div>
+    </div></div>
+  </section>
+
+  <div id="cats"></div>
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#top" aria-label="Playway, back to top"><span class="logo" aria-hidden="true">P</span><span class="wordmark">Play<b>way</b></span></a>
+      <p>Your curated gateway to the internet — every category, beautifully organised in one destination.</p>
+    </div>
+    <div class="foot-col" id="footExplore"><h2 class="foot-h">Explore</h2></div>
+    <div class="foot-col" id="footMore"><h2 class="foot-h">More</h2></div>
+    <div class="foot-col" id="footPicks"><h2 class="foot-h">Top picks</h2></div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Playway — Everything, everywhere.</span>
+    <span>Built by <a href="https://github.com/MohitKhajuria-jk" target="_blank" rel="noopener noreferrer">Mohit Khajuria</a></span>
+    <a href="https://github.com/MohitKhajuria-jk/playway" target="_blank" rel="noopener noreferrer">Source on GitHub ↗</a>
+  </div>
+</footer>
+
+<noscript><p style="text-align:center;padding:24px">Playway needs JavaScript turned on to show its list of sites.</p></noscript>
 
 <script>
-tailwind.config={
-  theme:{
-    extend:{
-      fontFamily:{display:['DM Serif Display','serif'],body:['DM Sans','system-ui','sans-serif']},
-    }
-  }
-}
-</script>
-
-<script type="text/babel">
-/* ─ destructure ─ */
-const {useState,useEffect,useRef,useCallback,useMemo}=React;
-const {motion,AnimatePresence,useScroll,useTransform,useSpring,useInView,stagger,animate:fm_animate}=window.Motion||window.FramerMotion||{
-  motion:{div:'div',a:'a',nav:'nav',section:'section',span:'span',h1:'h1',h2:'h2',p:'p',button:'button'},
-  AnimatePresence:({children})=>children,
-  useScroll:()=>({scrollY:{get:()=>0}}),
-  useTransform:(v,a,b)=>0,
-  useSpring:(v)=>v,
-  useInView:(ref)=>true,
-};
-
-/* ════════════════════════════
-   DATA
-════════════════════════════ */
-const CATS=[
-  {id:'search',num:'01',label:'Search',accent:'#2563eb',light:'rgba(37,99,235,0.08)',mesh:'section-mesh-blue',sites:[
-    {n:'Google',i:'🔍',d:'The world\'s most-used search engine with unmatched coverage.',t:'Universal',u:'https://google.com'},
-    {n:'Bing',i:'🌐',d:'Microsoft\'s AI-powered search with rich visuals and Copilot.',t:'AI-Powered',u:'https://bing.com'},
-    {n:'DuckDuckGo',i:'🦆',d:'Privacy-first search that never tracks you.',t:'Privacy',u:'https://duckduckgo.com'},
+/* ════════════════════════════════════════════
+   DATA — to add a site, add one line to a category:
+   { n:'Name', i:'emoji', d:'One-line description.', t:'Tag', u:'https://…' }
+════════════════════════════════════════════ */
+const CATS = [
+  {id:'search',num:'01',label:'Search',heading:'Find anything.',accent:'#2563eb',sites:[
+    {n:'Google',i:'🔍',d:'The world’s most-used search engine with unmatched coverage.',t:'Universal',u:'https://google.com'},
+    {n:'Bing',i:'🌐',d:'Microsoft’s AI-powered search with rich visuals and Copilot.',t:'AI-Powered',u:'https://bing.com'},
+    {n:'DuckDuckGo',i:'🦆',d:'Privacy-first search that doesn’t track you.',t:'Privacy',u:'https://duckduckgo.com'},
     {n:'Perplexity',i:'✨',d:'AI answers with real-time citations and live web access.',t:'AI Search',u:'https://perplexity.ai'},
-    {n:'Ecosia',i:'🌳',d:'Search the web, plant trees with every query.',t:'Eco',u:'https://ecosia.org'},
-    {n:'Yandex',i:'🔎',d:'Russia\'s leading search engine with powerful tools.',t:'Global',u:'https://yandex.com'},
+    {n:'Ecosia',i:'🌳',d:'Search the web and help plant trees with every query.',t:'Eco',u:'https://ecosia.org'},
+    {n:'Yandex',i:'🔎',d:'Russia’s leading search engine with powerful tools.',t:'Global',u:'https://yandex.com'},
   ]},
-  {id:'social',num:'02',label:'Social',accent:'#7c3aed',light:'rgba(124,58,237,0.08)',mesh:'section-mesh-violet',sites:[
-    {n:'Instagram',i:'📸',d:'Billions of creators. Photos, Reels, Stories and live video.',t:'Visual',u:'https://instagram.com'},
-    {n:'X / Twitter',i:'𝕏',d:'Real-time public conversations and breaking news.',t:'Microblog',u:'https://twitter.com'},
+  {id:'social',num:'02',label:'Social',heading:'Connect the world.',accent:'#7c3aed',sites:[
+    {n:'Instagram',i:'📸',d:'Photos, Reels, Stories and DMs with friends and creators.',t:'Visual',u:'https://instagram.com'},
+    {n:'X (Twitter)',i:'𝕏',d:'Real-time public conversations and breaking news.',t:'Microblog',u:'https://x.com'},
     {n:'Facebook',i:'👥',d:'Groups, events, marketplace and personal connections.',t:'Network',u:'https://facebook.com'},
     {n:'LinkedIn',i:'💼',d:'Professional networking, jobs and industry insights.',t:'Professional',u:'https://linkedin.com'},
     {n:'Reddit',i:'🤖',d:'Deep communities for every niche topic imaginable.',t:'Forum',u:'https://reddit.com'},
@@ -351,705 +547,408 @@ const CATS=[
     {n:'Snapchat',i:'👻',d:'Ephemeral messaging with AR lenses and Stories.',t:'Messaging',u:'https://snapchat.com'},
     {n:'Discord',i:'🎮',d:'Voice, video and text for gaming and communities.',t:'Community',u:'https://discord.com'},
   ]},
-  {id:'news',num:'03',label:'News',accent:'#dc2626',light:'rgba(220,38,38,0.07)',mesh:'section-mesh-pink',sites:[
-    {n:'BBC News',i:'📺',d:'Trusted global news from the British Broadcasting Corporation.',t:'Global',u:'https://bbc.com/news'},
-    {n:'Reuters',i:'📰',d:'International wire service. Facts first, always.',t:'Wire',u:'https://reuters.com'},
+  {id:'news',num:'03',label:'News',heading:'Stay informed.',accent:'#dc2626',sites:[
+    {n:'BBC News',i:'📺',d:'Global news from the British Broadcasting Corporation.',t:'Global',u:'https://bbc.com/news'},
+    {n:'Reuters',i:'📰',d:'International wire service. Facts first.',t:'Wire',u:'https://reuters.com'},
     {n:'New York Times',i:'📄',d:'Award-winning journalism covering politics and culture.',t:'Newspaper',u:'https://nytimes.com'},
-    {n:'Al Jazeera',i:'🌍',d:'Global news with underrepresented perspectives.',t:'International',u:'https://aljazeera.com'},
+    {n:'Al Jazeera',i:'🌍',d:'Global news with perspectives from the Global South.',t:'International',u:'https://aljazeera.com'},
     {n:'TechCrunch',i:'💻',d:'Technology, startups and Silicon Valley reporting.',t:'Tech',u:'https://techcrunch.com'},
-    {n:'The Guardian',i:'🛡️',d:'Progressive journalism on global affairs and culture.',t:'Newspaper',u:'https://theguardian.com'},
+    {n:'The Guardian',i:'🛡️',d:'Independent journalism on global affairs and culture.',t:'Newspaper',u:'https://theguardian.com'},
   ]},
-  {id:'shopping',num:'04',label:'Shopping',accent:'#16a34a',light:'rgba(22,163,74,0.07)',mesh:'section-mesh-green',sites:[
-    {n:'Amazon',i:'📦',d:'Everything store. Fast delivery with Prime across every category.',t:'Marketplace',u:'https://amazon.com'},
+  {id:'shopping',num:'04',label:'Shopping',heading:'Buy anything.',accent:'#16a34a',sites:[
+    {n:'Amazon',i:'📦',d:'The everything store, with fast delivery across every category.',t:'Marketplace',u:'https://amazon.com'},
     {n:'eBay',i:'🏷️',d:'Auctions and fixed-price listings. New, used and rare.',t:'Auction',u:'https://ebay.com'},
     {n:'Etsy',i:'🎨',d:'Handmade, vintage and artisan goods from creators worldwide.',t:'Artisan',u:'https://etsy.com'},
     {n:'AliExpress',i:'🛒',d:'Direct from manufacturers. Affordable, global selection.',t:'Global',u:'https://aliexpress.com'},
-    {n:'Zalando',i:'👗',d:'Europe\'s biggest fashion platform, thousands of brands.',t:'Fashion',u:'https://zalando.com'},
-    {n:'Shopify',i:'🏪',d:'Launch your own store. Behind millions of businesses.',t:'Platform',u:'https://shopify.com'},
+    {n:'Zalando',i:'👗',d:'One of Europe’s biggest fashion platforms, thousands of brands.',t:'Fashion',u:'https://zalando.com'},
+    {n:'Shopify',i:'🏪',d:'Launch your own online store.',t:'Platform',u:'https://shopify.com'},
   ]},
-  {id:'entertainment',num:'05',label:'Stream',accent:'#d97706',light:'rgba(217,119,6,0.08)',mesh:'section-mesh-blue',sites:[
-    {n:'Netflix',i:'🎬',d:'Original series, films and documentaries. The world\'s leading streamer.',t:'Streaming',u:'https://netflix.com'},
-    {n:'YouTube',i:'▶️',d:'Every video ever made. Music, tutorials and live streams.',t:'Video',u:'https://youtube.com'},
-    {n:'Spotify',i:'🎵',d:'100M+ songs, podcasts and audiobooks.',t:'Music',u:'https://spotify.com'},
+  {id:'entertainment',num:'05',label:'Stream',heading:'Watch. Listen.',accent:'#d97706',sites:[
+    {n:'Netflix',i:'🎬',d:'Original series, films and documentaries.',t:'Streaming',u:'https://netflix.com'},
+    {n:'YouTube',i:'▶️',d:'Music, tutorials, live streams and everything in between.',t:'Video',u:'https://youtube.com'},
+    {n:'Spotify',i:'🎵',d:'Songs, podcasts and audiobooks in one app.',t:'Music',u:'https://spotify.com'},
     {n:'Twitch',i:'📡',d:'Live streaming for gaming, music and creative content.',t:'Live',u:'https://twitch.tv'},
     {n:'Disney+',i:'✨',d:'Disney, Marvel, Star Wars, Pixar and National Geographic.',t:'Streaming',u:'https://disneyplus.com'},
     {n:'SoundCloud',i:'🎸',d:'Independent music. Discover emerging artists first.',t:'Indie',u:'https://soundcloud.com'},
-    {n:'IMDb',i:'🎞️',d:'The internet\'s movie database. Ratings and trivia.',t:'Database',u:'https://imdb.com'},
+    {n:'IMDb',i:'🎞️',d:'The internet’s movie database. Ratings and trivia.',t:'Database',u:'https://imdb.com'},
     {n:'Prime Video',i:'📽️',d:'Amazon originals and blockbuster movies on demand.',t:'Streaming',u:'https://primevideo.com'},
   ]},
-  {id:'learning',num:'06',label:'Learn',accent:'#d97706',light:'rgba(217,119,6,0.07)',mesh:'section-mesh-green',sites:[
+  {id:'learning',num:'06',label:'Learn',heading:'Grow your mind.',accent:'#d97706',sites:[
     {n:'Khan Academy',i:'📚',d:'Free education for everyone — math, science, history.',t:'Free',u:'https://khanacademy.org'},
     {n:'Coursera',i:'🎓',d:'University courses and certificates from top institutions.',t:'University',u:'https://coursera.org'},
     {n:'Udemy',i:'💡',d:'Practical skills from expert instructors.',t:'Skills',u:'https://udemy.com'},
-    {n:'Wikipedia',i:'📖',d:'60M+ articles in 300+ languages. Collaboratively maintained.',t:'Reference',u:'https://wikipedia.org'},
-    {n:'Duolingo',i:'🦉',d:'Learn 40+ languages through gamified daily lessons.',t:'Languages',u:'https://duolingo.com'},
-    {n:'TED',i:'🎤',d:'Ideas worth spreading from brilliant minds.',t:'Talks',u:'https://ted.com'},
+    {n:'Wikipedia',i:'📖',d:'The free encyclopedia, in hundreds of languages.',t:'Reference',u:'https://wikipedia.org'},
+    {n:'Duolingo',i:'🦉',d:'Learn languages through gamified daily lessons.',t:'Languages',u:'https://duolingo.com'},
+    {n:'TED',i:'🎤',d:'Short talks on big ideas from experts worldwide.',t:'Talks',u:'https://ted.com'},
   ]},
-  {id:'tools',num:'07',label:'Tools',accent:'#4f46e5',light:'rgba(79,70,229,0.08)',mesh:'section-mesh-violet',sites:[
+  {id:'tools',num:'07',label:'Tools',heading:'Work smarter.',accent:'#4f46e5',sites:[
     {n:'Notion',i:'📝',d:'All-in-one workspace for notes, wikis and teams.',t:'Workspace',u:'https://notion.so'},
     {n:'Figma',i:'🎨',d:'The collaborative design tool for wireframes and prototypes.',t:'Design',u:'https://figma.com'},
     {n:'GitHub',i:'⚙️',d:'Home of open source. Collaborate on code with millions.',t:'Dev',u:'https://github.com'},
     {n:'Canva',i:'🖌️',d:'Design graphics, presentations and social media visuals.',t:'Design',u:'https://canva.com'},
     {n:'Slack',i:'💬',d:'Team messaging, channels and integrations.',t:'Comms',u:'https://slack.com'},
     {n:'Trello',i:'📋',d:'Kanban-style project management for any workflow.',t:'Projects',u:'https://trello.com'},
-    {n:'Google Drive',i:'☁️',d:'Store, sync and collaborate on docs in the cloud.',t:'Cloud',u:'https://google.com/drive'},
+    {n:'Google Drive',i:'☁️',d:'Store, sync and collaborate on docs in the cloud.',t:'Cloud',u:'https://drive.google.com'},
     {n:'Zoom',i:'📹',d:'Video meetings and webinars anywhere in the world.',t:'Video',u:'https://zoom.us'},
   ]},
-  {id:'finance',num:'08',label:'Finance',accent:'#dc2626',light:'rgba(220,38,38,0.07)',mesh:'section-mesh-pink',sites:[
-    {n:'PayPal',i:'💳',d:'The world\'s most-used digital wallet.',t:'Payments',u:'https://paypal.com'},
-    {n:'Coinbase',i:'₿',d:'Buy, sell and store cryptocurrency safely.',t:'Crypto',u:'https://coinbase.com'},
+  {id:'finance',num:'08',label:'Finance',heading:'Manage money.',accent:'#dc2626',sites:[
+    {n:'PayPal',i:'💳',d:'Send, receive and pay online with a digital wallet.',t:'Payments',u:'https://paypal.com'},
+    {n:'Coinbase',i:'₿',d:'Buy, sell and store cryptocurrency.',t:'Crypto',u:'https://coinbase.com'},
     {n:'Robinhood',i:'📈',d:'Commission-free stock and crypto trading.',t:'Investing',u:'https://robinhood.com'},
     {n:'Wise',i:'🌏',d:'International transfers at the real exchange rate.',t:'Transfers',u:'https://wise.com'},
-    {n:'Stripe',i:'⚡',d:'The internet\'s payment infrastructure.',t:'Developer',u:'https://stripe.com'},
-    {n:'Mint',i:'💰',d:'Track spending, budgets and credit score.',t:'Budgeting',u:'https://mint.intuit.com'},
+    {n:'Stripe',i:'⚡',d:'Payment infrastructure for internet businesses.',t:'Developer',u:'https://stripe.com'},
+    {n:'YNAB',i:'💰',d:'Hands-on budgeting built around planning every expense.',t:'Budgeting',u:'https://ynab.com'},
   ]},
-  {id:'travel',num:'09',label:'Travel',accent:'#d97706',light:'rgba(217,119,6,0.08)',mesh:'section-mesh-blue',sites:[
+  {id:'travel',num:'09',label:'Travel',heading:'Explore the world.',accent:'#d97706',sites:[
     {n:'Airbnb',i:'🏠',d:'Unique stays and local experiences worldwide.',t:'Stays',u:'https://airbnb.com'},
-    {n:'Booking.com',i:'🏨',d:'28M+ listings with flexible cancellation.',t:'Hotels',u:'https://booking.com'},
-    {n:'Google Flights',i:'✈️',d:'Find cheap flights with price tracking.',t:'Flights',u:'https://google.com/flights'},
-    {n:'TripAdvisor',i:'⭐',d:'880M+ reviews from real travellers.',t:'Reviews',u:'https://tripadvisor.com'},
+    {n:'Booking.com',i:'🏨',d:'Hotels, homes and apartments with flexible cancellation.',t:'Hotels',u:'https://booking.com'},
+    {n:'Google Flights',i:'✈️',d:'Find cheap flights with price tracking.',t:'Flights',u:'https://google.com/travel/flights'},
+    {n:'Tripadvisor',i:'⭐',d:'Reviews and tips from travellers around the world.',t:'Reviews',u:'https://tripadvisor.com'},
     {n:'Skyscanner',i:'🔭',d:'Compare flights, hotels and car hire.',t:'Compare',u:'https://skyscanner.com'},
     {n:'Google Maps',i:'🗺️',d:'Navigate anywhere with real-time traffic.',t:'Navigation',u:'https://maps.google.com'},
   ]},
-  {id:'gaming',num:'10',label:'Gaming',accent:'#16a34a',light:'rgba(22,163,74,0.07)',mesh:'section-mesh-green',sites:[
-    {n:'Steam',i:'🎮',d:'The world\'s largest PC game library.',t:'PC Gaming',u:'https://store.steampowered.com'},
+  {id:'gaming',num:'10',label:'Gaming',heading:'Play.',accent:'#16a34a',sites:[
+    {n:'Steam',i:'🎮',d:'The world’s largest PC game library.',t:'PC Gaming',u:'https://store.steampowered.com'},
     {n:'Xbox',i:'🟢',d:'Game Pass, cloud gaming and exclusive titles.',t:'Console',u:'https://xbox.com'},
     {n:'Epic Games',i:'🔵',d:'Fortnite, free game giveaways and Unreal Engine.',t:'Store',u:'https://epicgames.com'},
-    {n:'Chess.com',i:'♟️',d:'Play online against millions or train with grandmasters.',t:'Strategy',u:'https://chess.com'},
+    {n:'Chess.com',i:'♟️',d:'Play online against millions or train with lessons and puzzles.',t:'Strategy',u:'https://chess.com'},
     {n:'Itch.io',i:'🕹️',d:'Indie marketplace for experimental and creative games.',t:'Indie',u:'https://itch.io'},
-    {n:'Miniclip',i:'🎯',d:'Classic browser games — pool, football and more.',t:'Browser',u:'https://miniclip.com'},
+    {n:'Poki',i:'🎯',d:'Thousands of free browser games — no downloads needed.',t:'Browser',u:'https://poki.com'},
   ]},
-  {id:'ai',num:'11',label:'AI',accent:'#2563eb',light:'rgba(37,99,235,0.08)',mesh:'section-mesh-violet',sites:[
-    {n:'Claude',i:'🤖',d:'Anthropic\'s most thoughtful AI assistant. Analysis, writing, coding.',t:"Editor's Pick",featured:true,u:'https://claude.ai'},
-    {n:'ChatGPT',i:'💬',d:'OpenAI\'s flagship conversational AI.',t:'Chatbot',u:'https://chat.openai.com'},
+  {id:'ai',num:'11',label:'AI',heading:'The future is here.',accent:'#2563eb',sites:[
+    {n:'Claude',i:'🤖',d:'Anthropic’s AI assistant for analysis, writing and coding.',t:'Editor’s Pick',featured:true,u:'https://claude.ai'},
+    {n:'ChatGPT',i:'💬',d:'OpenAI’s flagship conversational AI.',t:'Chatbot',u:'https://chatgpt.com'},
     {n:'Midjourney',i:'🖼️',d:'Generate stunning images from text prompts.',t:'Image Gen',u:'https://midjourney.com'},
-    {n:'Gemini',i:'♊',d:'Google\'s multimodal AI assistant.',t:'Multimodal',u:'https://gemini.google.com'},
-    {n:'Runway',i:'🎬',d:'AI video generation for creators.',t:'Video AI',u:'https://runway.ml'},
+    {n:'Gemini',i:'♊',d:'Google’s multimodal AI assistant.',t:'Multimodal',u:'https://gemini.google.com'},
+    {n:'Runway',i:'🎬',d:'AI video generation for creators.',t:'Video AI',u:'https://runwayml.com'},
     {n:'ElevenLabs',i:'🎙️',d:'Ultra-realistic voice synthesis.',t:'Voice AI',u:'https://elevenlabs.io'},
     {n:'Microsoft Copilot',i:'🪄',d:'AI integrated across Microsoft 365.',t:'Productivity',u:'https://copilot.microsoft.com'},
   ]},
-  {id:'health',num:'12',label:'Health',accent:'#16a34a',light:'rgba(22,163,74,0.07)',mesh:'section-mesh-green',sites:[
-    {n:'WebMD',i:'🩺',d:'Trusted health information, symptoms and drugs.',t:'Medical',u:'https://webmd.com'},
+  {id:'health',num:'12',label:'Health',heading:'Live well.',accent:'#16a34a',sites:[
+    {n:'WebMD',i:'🩺',d:'Health information on symptoms, conditions and drugs.',t:'Medical',u:'https://webmd.com'},
     {n:'Headspace',i:'🧘',d:'Guided meditation and mindfulness training.',t:'Mindfulness',u:'https://headspace.com'},
     {n:'Strava',i:'🏃',d:'Track runs, rides and connect with athletes.',t:'Fitness',u:'https://strava.com'},
-    {n:'MyFitnessPal',i:'🥗',d:'Calorie tracking with 14M+ food database.',t:'Nutrition',u:'https://myfitnesspal.com'},
+    {n:'MyFitnessPal',i:'🥗',d:'Calorie and nutrition tracking with a huge food database.',t:'Nutrition',u:'https://myfitnesspal.com'},
     {n:'Calm',i:'🌙',d:'Sleep stories, breathing and relaxation.',t:'Sleep',u:'https://calm.com'},
-    {n:'Practo',i:'👨‍⚕️',d:'Find doctors and consult healthcare professionals.',t:'Doctors',u:'https://practo.com'},
+    {n:'Practo',i:'👨‍⚕️',d:'Find doctors and book consultations.',t:'Doctors',u:'https://practo.com'},
   ]},
 ];
+const TOP_PICKS = ['Claude','Google','YouTube','Spotify','GitHub','Netflix'];
 
-/* ════════════════════════════
-   CURSOR
-════════════════════════════ */
-function Cursor(){
-  const dot=useRef(null), ring=useRef(null);
-  const pos=useRef({x:0,y:0}), rpos=useRef({x:0,y:0}), raf=useRef(null);
-  useEffect(()=>{
-    const move=e=>{pos.current={x:e.clientX,y:e.clientY}};
-    const down=()=>{if(dot.current)dot.current.style.transform='translate(-50%,-50%) scale(0.5)'};
-    const up=()=>{if(dot.current)dot.current.style.transform='translate(-50%,-50%) scale(1)'};
-    document.addEventListener('mousemove',move);
-    document.addEventListener('mousedown',down);
-    document.addEventListener('mouseup',up);
-    const links=document.querySelectorAll('a,button,.x-card');
-    links.forEach(el=>{
-      el.addEventListener('mouseenter',()=>{if(ring.current){ring.current.style.width='52px';ring.current.style.height='52px';ring.current.style.borderColor='rgba(37,99,235,0.6)';ring.current.style.borderRadius='12px'}});
-      el.addEventListener('mouseleave',()=>{if(ring.current){ring.current.style.width='36px';ring.current.style.height='36px';ring.current.style.borderColor='rgba(37,99,235,0.4)';ring.current.style.borderRadius='50%'}});
+/* ════════════ HELPERS ════════════ */
+const $ = s => document.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} },
+};
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+const ALL = CATS.flatMap(c => c.sites.map(s => ({ ...s, cat: c })));
+const TOTAL = ALL.length;
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+let favs = new Set(store.get('playway:favs', []));
+
+const STAR = `<svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+
+function cardHTML(site, cat, idx, inFavs){
+  const on = favs.has(site.u);
+  const search = [site.n, site.d, site.t, cat.label, cat.id].join(' ').toLowerCase();
+  return `<div class="card${inFavs ? '' : ' rv'}${site.featured && !inFavs ? ' is-featured' : ''}" style="--accent:${cat.accent};--d:${Math.min(idx, 8) * 40}ms" data-s="${esc(search)}" data-url="${esc(site.u)}">
+    <a class="site" href="${esc(site.u)}" target="_blank" rel="noopener noreferrer">
+      <span class="site-top"><span class="icon-box" aria-hidden="true">${site.i}</span><span class="tag">${esc(site.t)}</span></span>
+      <span class="site-name">${esc(site.n)}</span>
+      <span class="site-desc">${esc(site.d)}</span>
+      <span class="site-open" aria-hidden="true">Open <span>↗</span></span>
+    </a>
+    <button class="star" type="button" aria-pressed="${on}" aria-label="${on ? 'Remove' : 'Add'} ${esc(site.n)} ${on ? 'from' : 'to'} favourites">${STAR}</button>
+  </div>`;
+}
+
+function featuredHTML(site){
+  return `<a class="featured rv" href="${esc(site.u)}" target="_blank" rel="noopener noreferrer" style="--accent:#2563eb">
+    <div class="f-orb"></div>
+    <div class="f-row">
+      <div class="f-left">
+        <div class="f-icon" aria-hidden="true">${site.i}</div>
+        <div>
+          <div class="f-eyebrow">⭐ Editor’s Pick</div>
+          <div class="f-title">Claude by Anthropic</div>
+          <div class="f-desc">The most thoughtful AI assistant. Deep analysis, nuanced writing, coding help and genuine conversation — built with safety at its core.</div>
+        </div>
+      </div>
+      <span class="btn btn-primary">Open Claude →</span>
+    </div>
+  </a>`;
+}
+
+/* ════════════ RENDER ════════════ */
+// nav
+$('#navLinks').innerHTML = CATS.map(c => `<a href="#${c.id}" data-id="${c.id}">${c.label}</a>`).join('');
+
+// hero meta
+$('#heroMeta').innerHTML = [
+  ['#2563eb', `${CATS.length} categories`],
+  ['#7c3aed', `${TOTAL} hand-picked sites`],
+  ['#22c55e', 'Free · no sign-up'],
+].map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join('');
+
+// marquee
+const MQ = ['Search Engines','Social Media','Streaming','Online Shopping','Breaking News','AI Tools','Gaming','Finance','Travel','Education','Health & Wellness','Productivity'];
+$('#marquee').innerHTML = [...MQ, ...MQ].map(t => `<span><b>◆</b>${t}</span>`).join('');
+
+// stats — every number here is true and computed from the data
+const STATS = [
+  {v: CATS.length, l: 'Categories',    c: '#2563eb', d: 'Spanning every major corner of the web'},
+  {v: TOTAL,       l: 'Curated sites', c: '#7c3aed', d: 'Hand-picked, no filler'},
+  {v: 0,           l: 'Ads',           c: '#ec4899', d: 'Just the links, nothing in the way'},
+  {v: 1,           l: 'Page',          c: '#d97706', d: 'Everything in a single place'},
+];
+$('#stats').innerHTML = STATS.map(s => `<div class="stat" style="--c:${s.c}">
+  <div class="stat-num" data-v="${s.v}">${reduceMotion ? s.v : 0}</div>
+  <div class="stat-label">${s.l}</div><div class="stat-desc">${s.d}</div></div>`).join('');
+
+// categories
+$('#cats').innerHTML = CATS.map((cat, i) => {
+  const alt = (i + 1) % 2 === 0;
+  const feat = cat.sites.find(s => s.featured);
+  return `<div class="cat-block" data-cat="${cat.id}">
+    ${i > 0 ? `<div class="sep" aria-hidden="true"><i></i><span>${cat.label}</span><i></i></div>` : ''}
+    ${i === 5 ? `<div class="band hide-on-search"><p>🎓 The world’s best learning platforms — one click away</p><a href="#learning" class="btn btn-ghost">Explore learning →</a></div>` : ''}
+    <section id="${cat.id}" class="cat${alt ? ' alt' : ''}" style="--accent:${cat.accent}" aria-labelledby="h-${cat.id}">
+      <div class="cat-orb ${alt ? 'l' : 'r'}"></div>
+      <div class="wrap"><div class="sec-layout">
+        <div class="sec-sticky"><div class="side rv-l">
+          <span class="sec-num" aria-hidden="true">${cat.num}</span>
+          <div class="eyebrow">${cat.num} — ${cat.label}</div>
+          <h2 class="sec-title" id="h-${cat.id}">${cat.heading}</h2>
+          <p class="sec-count"></p>
+          <div class="meter" aria-hidden="true"><div class="meter-fill"></div></div>
+        </div></div>
+        <div>
+          ${feat ? featuredHTML(feat) : ''}
+          <div class="cards-3">${cat.sites.map((s, j) => cardHTML(s, cat, j)).join('')}</div>
+        </div>
+      </div></div>
+    </section>
+  </div>`;
+}).join('');
+
+// footer
+const footLinks = list => list.map(c => `<a href="#${c.id}">${c.label}</a>`).join('');
+$('#footExplore').insertAdjacentHTML('beforeend', footLinks(CATS.slice(0, 6)));
+$('#footMore').insertAdjacentHTML('beforeend', footLinks(CATS.slice(6)));
+$('#footPicks').insertAdjacentHTML('beforeend', TOP_PICKS.map(n => {
+  const s = ALL.find(x => x.n === n);
+  return s ? `<a href="${esc(s.u)}" target="_blank" rel="noopener noreferrer">${esc(s.n)}${s.featured ? ' ✦' : ''}</a>` : '';
+}).join(''));
+
+/* ════════════ FAVOURITES ════════════ */
+function renderFavs(){
+  const list = ALL.filter(s => favs.has(s.u));
+  $('#favourites').hidden = list.length === 0;
+  $('#favGrid').innerHTML = list.map((s, i) => cardHTML(s, s.cat, i, true)).join('');
+  $('#favCount').textContent = `${plural(list.length, 'site', 'sites')} saved in this browser`;
+}
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.star');
+  if (!btn) return;
+  const url = btn.closest('.card').dataset.url;
+  favs.has(url) ? favs.delete(url) : favs.add(url);
+  store.set('playway:favs', [...favs]);
+  const on = favs.has(url);
+  $$('.card').filter(c => c.dataset.url === url).forEach(card => {
+    const b = card.querySelector('.star');
+    const name = card.querySelector('.site-name').textContent;
+    b.setAttribute('aria-pressed', on);
+    b.setAttribute('aria-label', `${on ? 'Remove' : 'Add'} ${name} ${on ? 'from' : 'to'} favourites`);
+  });
+  renderFavs();
+  announce(on ? 'Added to favourites' : 'Removed from favourites');
+});
+renderFavs();
+
+/* ════════════ SEARCH ════════════ */
+const input = $('#q');
+let statusTimer;
+function announce(msg){
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => { $('#status').textContent = msg; }, 450);
+}
+function applySearch(raw){
+  const q = raw.trim().toLowerCase();
+  const words = q.split(/\s+/).filter(Boolean);
+  const wasSearching = document.body.classList.contains('searching');
+  document.body.classList.toggle('searching', words.length > 0);
+  $('#searchBox').classList.toggle('has-q', raw.length > 0);
+  $('#clearBtn').hidden = raw.length === 0;
+
+  let total = 0, catsHit = 0;
+  $$('.cat-block').forEach(block => {
+    const cards = $$('.cards-3 .card', block);
+    let n = 0;
+    cards.forEach(card => {
+      const show = words.length
+        ? words.every(w => card.dataset.s.includes(w))
+        : !card.classList.contains('is-featured');  // Claude shows as the big featured card instead
+      card.hidden = !show;
+      if (show) n++;
     });
-    const tick=()=>{
-      rpos.current.x+=(pos.current.x-rpos.current.x)*0.12;
-      rpos.current.y+=(pos.current.y-rpos.current.y)*0.12;
-      if(dot.current){dot.current.style.left=pos.current.x+'px';dot.current.style.top=pos.current.y+'px';}
-      if(ring.current){ring.current.style.left=rpos.current.x+'px';ring.current.style.top=rpos.current.y+'px';}
-      raf.current=requestAnimationFrame(tick);
-    };
-    tick();
-    return()=>{
-      document.removeEventListener('mousemove',move);
-      document.removeEventListener('mousedown',down);
-      document.removeEventListener('mouseup',up);
-      if(raf.current)cancelAnimationFrame(raf.current);
-    };
-  },[]);
-  return null; // managed via DOM refs for perf
-}
-
-/* ════════════════════════════
-   NAV
-════════════════════════════ */
-function Nav({q,setQ,scrolled}){
-  const [mobileOpen,setMobileOpen]=useState(false);
-  return(
-    <nav style={{
-      position:'fixed',top:0,left:0,right:0,zIndex:500,
-      height:54,display:'flex',alignItems:'center',justifyContent:'space-between',
-      padding:'0 32px',
-      background:scrolled?'rgba(250,250,250,0.88)':'rgba(255,255,255,0.72)',
-      backdropFilter:'blur(40px) saturate(200%)',
-      WebkitBackdropFilter:'blur(40px) saturate(200%)',
-      borderBottom:scrolled?'1px solid rgba(0,0,0,0.08)':'1px solid transparent',
-      transition:'all 0.4s cubic-bezier(0.22,1,0.36,1)',
-    }}>
-      {/* Logo */}
-      <div style={{display:'flex',alignItems:'center',gap:8,flexShrink:0}}>
-        <div style={{
-          width:30,height:30,borderRadius:9,
-          background:'linear-gradient(135deg,#2563eb,#7c3aed)',
-          display:'flex',alignItems:'center',justifyContent:'center',
-          fontSize:14,color:'white',fontWeight:700,fontFamily:'DM Serif Display,serif',
-          boxShadow:'0 2px 8px rgba(37,99,235,0.35)',
-        }}>P</div>
-        <span style={{fontSize:17,fontWeight:700,letterSpacing:'-0.04em',fontFamily:'DM Sans,sans-serif'}}>
-          <span style={{color:'#09090b'}}>Play</span><span style={{color:'#2563eb'}}>way</span>
-        </span>
-      </div>
-
-      {/* Center links */}
-      <div className="nav-desktop" style={{display:'flex',alignItems:'center',gap:2,
-        background:'rgba(0,0,0,0.03)',borderRadius:12,padding:'3px 4px',border:'1px solid rgba(0,0,0,0.06)'}}>
-        {CATS.slice(0,9).map(c=>(
-          <a key={c.id} href={`#${c.id}`} className="nav-pill-link" style={{fontSize:12.5}}>{c.label}</a>
-        ))}
-        <span style={{color:'rgba(0,0,0,0.2)',padding:'0 4px',fontSize:12}}>···</span>
-      </div>
-
-      {/* Search */}
-      <div style={{position:'relative',width:196,flexShrink:0}}>
-        <svg style={{position:'absolute',left:12,top:'50%',transform:'translateY(-50%)',opacity:0.35,pointerEvents:'none'}} width="13" height="13" viewBox="0 0 13 13" fill="none">
-          <circle cx="5.5" cy="5.5" r="4.5" stroke="#09090b" strokeWidth="1.3"/>
-          <path d="M9 9l3 3" stroke="#09090b" strokeWidth="1.3" strokeLinecap="round"/>
-        </svg>
-        <input className="input-field" style={{paddingLeft:36,paddingTop:8,paddingBottom:8,fontSize:13,borderRadius:10}}
-          placeholder="Search everything…" value={q} onChange={e=>setQ(e.target.value.toLowerCase())}/>
-        {q&&<button onClick={()=>setQ('')} style={{position:'absolute',right:10,top:'50%',transform:'translateY(-50%)',background:'rgba(0,0,0,0.09)',border:'none',borderRadius:'50%',width:17,height:17,fontSize:9,cursor:'pointer',color:'#666',display:'flex',alignItems:'center',justifyContent:'center'}}>✕</button>}
-      </div>
-    </nav>
-  );
-}
-
-/* ════════════════════════════
-   HERO
-════════════════════════════ */
-function Hero(){
-  const containerRef=useRef(null);
-  const [mousePos,setMousePos]=useState({x:0.5,y:0.5});
-
-  useEffect(()=>{
-    const onMove=e=>{
-      setMousePos({x:e.clientX/window.innerWidth,y:e.clientY/window.innerHeight});
-    };
-    window.addEventListener('mousemove',onMove,{passive:true});
-    return()=>window.removeEventListener('mousemove',onMove);
-  },[]);
-
-  const parallaxStyle=(strength=30)=>({
-    transform:`translate(${(mousePos.x-0.5)*-strength}px, ${(mousePos.y-0.5)*-strength}px)`,
-    transition:'transform 0.8s cubic-bezier(0.22,1,0.36,1)',
+    const size = cards.length;
+    block.hidden = words.length > 0 && n === 0;
+    block.querySelector('.sec-count').textContent = words.length
+      ? `${n} of ${size} sites match`
+      : `${size} sites curated`;
+    block.querySelector('.meter-fill').style.width = `${(words.length ? n / size : 1) * 100}%`;
+    if (words.length && n) { total += n; catsHit++; }
   });
 
-  return(
-    <section ref={containerRef} className="hero-mesh" style={{
-      minHeight:'100vh',display:'flex',flexDirection:'column',
-      alignItems:'center',justifyContent:'center',
-      textAlign:'center',padding:'100px 24px 80px',
-      position:'relative',overflow:'hidden',
-    }}>
-      {/* Parallax orbs */}
-      <div style={{position:'absolute',top:'5%',left:'8%',width:480,height:480,
-        borderRadius:'50%',background:'radial-gradient(circle,rgba(37,99,235,0.08),transparent 70%)',
-        filter:'blur(50px)',pointerEvents:'none',...parallaxStyle(20)}}/>
-      <div style={{position:'absolute',bottom:'5%',right:'6%',width:380,height:380,
-        borderRadius:'50%',background:'radial-gradient(circle,rgba(124,58,237,0.07),transparent 70%)',
-        filter:'blur(42px)',pointerEvents:'none',...parallaxStyle(-18)}}/>
-      <div style={{position:'absolute',top:'35%',right:'10%',width:260,height:260,
-        borderRadius:'50%',background:'radial-gradient(circle,rgba(79,70,229,0.06),transparent 70%)',
-        filter:'blur(34px)',pointerEvents:'none',...parallaxStyle(25)}}/>
+  if (words.length){
+    $('#resultsTitle').innerHTML = `${plural(total, 'site', 'sites')} for <em>“${esc(raw.trim())}”</em>`;
+    $('#resultsSub').textContent = total ? `Across ${plural(catsHit, 'category', 'categories')}. Press Enter to jump to the first one.` : '';
+    $('#noResults').hidden = total > 0;
+    announce(total ? `${plural(total, 'site', 'sites')} found` : 'No sites found');
+    if (!wasSearching) window.scrollTo({ top: 0, behavior: 'instant' });
+  } else {
+    $('#noResults').hidden = true;
+  }
+}
+input.addEventListener('input', () => applySearch(input.value));
+input.addEventListener('keydown', e => {
+  if (e.key === 'Escape'){ if (input.value){ input.value = ''; applySearch(''); } else input.blur(); }
+  if (e.key === 'Enter'){
+    e.preventDefault();
+    const first = $$('#cats .card').find(c => !c.hidden && !c.closest('[hidden]'));
+    if (first) first.querySelector('.site').focus();
+  }
+});
+const clearSearch = () => { input.value = ''; applySearch(''); };
+$('#clearBtn').addEventListener('click', () => { clearSearch(); input.focus(); });
+$('#clearSearch').addEventListener('click', () => { clearSearch(); input.focus(); });
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !e.target.closest('input,textarea,[contenteditable]')){
+    e.preventDefault(); input.focus(); input.select();
+  }
+});
+// Following an in-page link (nav, footer, CTAs) while searching clears the search first,
+// so the section you asked for is actually visible.
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (a && document.body.classList.contains('searching')) clearSearch();
+});
+applySearch('');
 
-      {/* Floating glass cards — decorative */}
-      <div className="floating" style={{position:'absolute',left:'4%',top:'22%',zIndex:2,...parallaxStyle(12)}}>
-        <div className="glass-card shadow-md2 rounded-2xl p-4 w-48 text-left">
-          <div style={{fontSize:20,marginBottom:8}}>🔍</div>
-          <div style={{fontSize:13,fontWeight:600,color:'#09090b',marginBottom:2}}>Google</div>
-          <div style={{fontSize:11,color:'#71717a'}}>Search engine</div>
-          <div style={{marginTop:8,fontSize:10,background:'rgba(37,99,235,0.09)',color:'#2563eb',padding:'2px 8px',borderRadius:980,display:'inline-block',fontWeight:600,letterSpacing:'0.05em',textTransform:'uppercase'}}>Universal</div>
-        </div>
-      </div>
-      <div className="floating2" style={{position:'absolute',right:'4%',top:'28%',zIndex:2,...parallaxStyle(-10)}}>
-        <div className="glass-card shadow-md2 rounded-2xl p-4 w-48 text-left">
-          <div style={{fontSize:20,marginBottom:8}}>🤖</div>
-          <div style={{fontSize:13,fontWeight:600,color:'#09090b',marginBottom:2}}>Claude</div>
-          <div style={{fontSize:11,color:'#71717a'}}>AI Assistant</div>
-          <div style={{marginTop:8,fontSize:10,background:'rgba(37,99,235,0.09)',color:'#2563eb',padding:'2px 8px',borderRadius:980,display:'inline-block',fontWeight:600,letterSpacing:'0.05em',textTransform:'uppercase'}}>Editor's Pick</div>
-        </div>
-      </div>
-      <div className="floating3" style={{position:'absolute',left:'6%',bottom:'18%',zIndex:2,...parallaxStyle(15)}}>
-        <div className="glass-card shadow-md2 rounded-2xl p-4 w-44 text-left">
-          <div style={{fontSize:20,marginBottom:8}}>🎵</div>
-          <div style={{fontSize:13,fontWeight:600,color:'#09090b',marginBottom:2}}>Spotify</div>
-          <div style={{fontSize:11,color:'#71717a'}}>Music streaming</div>
-        </div>
-      </div>
+/* ════════════ THEME ════════════ */
+const root = document.documentElement;
+const darkMQ = matchMedia('(prefers-color-scheme: dark)');
+const isDark = () => (root.dataset.theme || (darkMQ.matches ? 'dark' : 'light')) === 'dark';
+function syncTheme(){
+  root.classList.toggle('is-dark', isDark());
+  $('#themeBtn').setAttribute('aria-label', isDark() ? 'Switch to light mode' : 'Switch to dark mode');
+}
+$('#themeBtn').addEventListener('click', () => {
+  root.dataset.theme = isDark() ? 'light' : 'dark';
+  store.set('playway:theme', root.dataset.theme);
+  syncTheme();
+});
+darkMQ.addEventListener?.('change', syncTheme);
+syncTheme();
 
-      {/* Content */}
-      <div style={{position:'relative',zIndex:10,maxWidth:780}}>
-        {/* Badge */}
-        <div style={{display:'inline-flex',alignItems:'center',gap:8,
-          background:'rgba(255,255,255,0.85)',backdropFilter:'blur(20px)',
-          border:'1px solid rgba(0,0,0,0.08)',borderRadius:980,
-          padding:'7px 18px',marginBottom:32,
-          boxShadow:'0 2px 12px rgba(0,0,0,0.06)',
-          fontSize:12.5,fontWeight:500,color:'rgba(60,60,67,0.75)',
-          animation:'none',
-        }}>
-          <div className="live-dot"></div>
-          The internet, curated
-        </div>
+/* ════════════ SCROLL: progress bar, nav state ════════════ */
+const nav = $('#nav'), pg = $('#pg');
+let scrollTick = false;
+function onScroll(){
+  const max = document.documentElement.scrollHeight - innerHeight;
+  pg.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  nav.classList.toggle('scrolled', scrollY > 24);
+  scrollTick = false;
+}
+addEventListener('scroll', () => { if (!scrollTick){ scrollTick = true; requestAnimationFrame(onScroll); } }, { passive: true });
+onScroll();
 
-        {/* Headline */}
-        <h1 className="hero-display" style={{marginBottom:28}}>
-          Every website.<br/>
-          <em>One place.</em>
-        </h1>
-
-        {/* Subhead */}
-        <p style={{fontSize:'clamp(17px,2vw,21px)',fontWeight:300,color:'#52525b',
-          maxWidth:520,margin:'0 auto 44px',lineHeight:1.58,letterSpacing:'-0.01em'}}>
-          Playway curates the very best of the web — search, social, news, shopping, entertainment and beyond.
-        </p>
-
-        {/* CTAs */}
-        <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap',marginBottom:64}}>
-          <a href="#search" className="btn btn-primary" style={{fontSize:15,padding:'13px 30px'}}>Start exploring →</a>
-          <a href="#ai" className="btn btn-secondary" style={{fontSize:15,padding:'13px 30px'}}>Discover AI tools</a>
-        </div>
-
-        {/* Meta */}
-        <div className="glass shadow-xs" style={{display:'inline-flex',alignItems:'center',borderRadius:980,overflow:'hidden'}}>
-          {[{dot:'#2563eb',txt:'12 categories'},{dot:'#7c3aed',txt:'80+ curated sites'},{dot:'#22c55e',txt:'Always updated'}].map((m,i)=>(
-            <div key={i} style={{display:'flex',alignItems:'center',gap:8,padding:'11px 22px',
-              borderRight:i<2?'1px solid rgba(0,0,0,0.08)':'none',
-              fontSize:12.5,fontWeight:500,color:'rgba(60,60,67,0.75)'}}>
-              <div style={{width:7,height:7,borderRadius:'50%',background:m.dot,flexShrink:0}}></div>
-              {m.txt}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div style={{position:'absolute',bottom:40,display:'flex',flexDirection:'column',alignItems:'center',gap:8}}>
-        <div style={{width:1,height:38,background:'linear-gradient(180deg,rgba(0,0,0,0.15),transparent)',animation:'floatY 2s ease-in-out infinite'}}></div>
-        <span style={{fontSize:9,fontWeight:700,letterSpacing:'0.14em',textTransform:'uppercase',color:'rgba(0,0,0,0.28)'}}>Scroll</span>
-      </div>
-    </section>
-  );
+/* ════════════ REVEAL ON SCROLL ════════════ */
+if (reduceMotion || !('IntersectionObserver' in window)){
+  $$('.rv,.rv-l').forEach(el => el.classList.add('in'));
+} else {
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: 0.07 });
+  $$('.rv,.rv-l').forEach(el => io.observe(el));
 }
 
-/* ════════════════════════════
-   MARQUEE
-════════════════════════════ */
-function Marquee(){
-  const items=['Search Engines','Social Media','Streaming','Online Shopping','Breaking News','AI Tools','Gaming','Finance','Travel','Education','Health & Wellness','Productivity'];
-  return(
-    <div className="mq-wrap" style={{overflow:'hidden',borderTop:'1px solid rgba(0,0,0,0.07)',borderBottom:'1px solid rgba(0,0,0,0.07)',background:'rgba(255,255,255,0.6)',backdropFilter:'blur(16px)',padding:'15px 0',position:'relative'}}>
-      <div style={{position:'absolute',left:0,top:0,bottom:0,width:140,background:'linear-gradient(90deg,#fafafa,transparent)',zIndex:2,pointerEvents:'none'}}/>
-      <div style={{position:'absolute',right:0,top:0,bottom:0,width:140,background:'linear-gradient(-90deg,#fafafa,transparent)',zIndex:2,pointerEvents:'none'}}/>
-      <div className="mq-track">
-        {[...items,...items].map((item,i)=>(
-          <span key={i} style={{display:'inline-flex',alignItems:'center',gap:12,padding:'0 28px',
-            fontSize:11,fontWeight:600,letterSpacing:'0.09em',textTransform:'uppercase',color:'rgba(60,60,67,0.4)',whiteSpace:'nowrap'}}>
-            <span style={{fontSize:6,color:'#2563eb',opacity:0.5}}>◆</span>
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ════════════════════════════
-   STATS
-════════════════════════════ */
-function Stats(){
-  const ref=useRef();
-  const [vals,setVals]=useState([0,0,0,0]);
-  const targets=[12,80,4,5];
-  useEffect(()=>{
-    const obs=new IntersectionObserver(([e])=>{
-      if(!e.isIntersecting)return;
-      const dur=1400,start=Date.now();
-      const tick=()=>{
-        const p=Math.min((Date.now()-start)/dur,1);
-        const ease=1-Math.pow(1-p,3);
-        setVals(targets.map(t=>Math.round(ease*t)));
-        if(p<1)requestAnimationFrame(tick);
-      };tick();obs.disconnect();
-    });
-    if(ref.current)obs.observe(ref.current);
-    return()=>obs.disconnect();
-  },[]);
-
-  const STATS=[
-    {n:`${vals[0]}`,l:'Categories',c:'#2563eb',desc:'Spanning every major web vertical'},
-    {n:`${vals[1]}+`,l:'Curated Sites',c:'#7c3aed',desc:'Hand-picked for quality'},
-    {n:`${vals[2]}M+`,l:'Monthly users',c:'#ec4899',desc:'Trust Playway daily'},
-    {n:`${vals[3]}★`,l:'Avg. rating',c:'#d97706',desc:'Rated by real users'},
-  ];
-
-  return(
-    <div ref={ref} className="stats-grid rv" style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',
-      borderTop:'1px solid rgba(0,0,0,0.07)',borderBottom:'1px solid rgba(0,0,0,0.07)',
-      background:'rgba(255,255,255,0.65)',backdropFilter:'blur(20px)'}}>
-      {STATS.map((s,i)=>(
-        <div key={i} style={{padding:'52px 28px',textAlign:'center',borderRight:i<3?'1px solid rgba(0,0,0,0.07)':'none',position:'relative',overflow:'hidden',transition:'background 0.3s'}}
-          onMouseEnter={e=>e.currentTarget.style.background=`${s.c}07`}
-          onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
-          <div className="stat-num" style={{color:s.c,marginBottom:8}}>{s.n}</div>
-          <div style={{fontSize:11,fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase',color:'rgba(60,60,67,0.5)',marginBottom:6}}>{s.l}</div>
-          <div style={{fontSize:12,fontWeight:300,color:'rgba(60,60,67,0.45)'}}>{s.desc}</div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* ════════════════════════════
-   SITE CARD
-════════════════════════════ */
-function SiteCard({site,accent,idx}){
-  const [hov,setHov]=useState(false);
-  return(
-    <a href={site.u} target="_blank" rel="noopener"
-      className="glass-card x-card rv rounded-2xl"
-      style={{
-        display:'flex',flexDirection:'column',gap:0,padding:'22px',
-        borderColor:hov?`${accent}25`:'rgba(255,255,255,0.95)',
-        animationDelay:`${idx*35}ms`,
-        transitionDelay:`${idx*20}ms`,
-        boxShadow:hov?`0 12px 40px rgba(0,0,0,0.10),0 0 0 1px ${accent}18`:'0 2px 12px rgba(0,0,0,0.06),0 1px 3px rgba(0,0,0,0.04)',
-      }}
-      onMouseEnter={()=>setHov(true)}
-      onMouseLeave={()=>setHov(false)}
-    >
-      <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:14}}>
-        <div className="icon-box" style={{
-          background:hov?`${accent}12`:'rgba(255,255,255,0.95)',
-          transform:hov?'scale(1.1) rotate(-3deg)':'scale(1) rotate(0)',
-          transition:'all 0.35s cubic-bezier(0.34,1.56,0.64,1)',
-        }}>{site.i}</div>
-        <span style={{fontSize:9,fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',
-          padding:'3px 10px',borderRadius:980,
-          background:hov?`${accent}12`:'rgba(0,0,0,0.05)',
-          color:hov?accent:'rgba(60,60,67,0.45)',
-          border:`1px solid ${hov?`${accent}25`:'rgba(0,0,0,0.07)'}`,
-          transition:'all 0.25s',flexShrink:0,
-        }}>{site.t}</span>
-      </div>
-      <div style={{fontSize:15,fontWeight:600,letterSpacing:'-0.02em',color:'#09090b',marginBottom:6}}>{site.n}</div>
-      <div style={{fontSize:12.5,fontWeight:300,color:'#71717a',lineHeight:1.6,flexGrow:1,marginBottom:14}}>{site.d}</div>
-      <div style={{display:'flex',alignItems:'center',gap:4,fontSize:12,fontWeight:500,color:accent,
-        opacity:hov?1:0,transform:hov?'translateX(0)':'translateX(-8px)',
-        transition:'all 0.25s cubic-bezier(0.22,1,0.36,1)',
-      }}>Open <span style={{fontSize:14}}>↗</span></div>
-    </a>
-  );
-}
-
-/* ════════════════════════════
-   FEATURED (AI Editor's Pick)
-════════════════════════════ */
-function FeaturedAI(){
-  const [hov,setHov]=useState(false);
-  return(
-    <a href="https://claude.ai" target="_blank" rel="noopener"
-      className="x-card rv"
-      style={{display:'block',marginBottom:12,borderRadius:20,overflow:'hidden'}}
-      onMouseEnter={()=>setHov(true)}
-      onMouseLeave={()=>setHov(false)}
-    >
-      <div className="feat-bg" style={{
-        padding:'40px 44px',position:'relative',overflow:'hidden',borderRadius:20,
-        backdropFilter:'blur(32px)',
-        background:hov
-          ?'linear-gradient(135deg,rgba(37,99,235,0.11),rgba(79,70,229,0.12),rgba(124,58,237,0.09))'
-          :'linear-gradient(135deg,rgba(37,99,235,0.07),rgba(79,70,229,0.08),rgba(124,58,237,0.06))',
-        boxShadow:hov?'0 16px 60px rgba(37,99,235,0.14),0 4px 16px rgba(0,0,0,0.06)':'0 4px 24px rgba(0,0,0,0.06)',
-        transition:'all 0.4s cubic-bezier(0.22,1,0.36,1)',
-      }}>
-        {/* Orbs */}
-        <div style={{position:'absolute',top:-80,right:-80,width:280,height:280,borderRadius:'50%',background:'radial-gradient(circle,rgba(37,99,235,0.13),transparent 70%)',pointerEvents:'none',transition:'transform 0.5s var(--ease)',transform:hov?'scale(1.12)':'scale(1)'}}/>
-        <div style={{position:'absolute',bottom:-60,left:'30%',width:200,height:200,borderRadius:'50%',background:'radial-gradient(circle,rgba(124,58,237,0.09),transparent 70%)',pointerEvents:'none'}}/>
-        <div style={{position:'relative',zIndex:1,display:'flex',alignItems:'center',justifyContent:'space-between',gap:24,flexWrap:'wrap'}}>
-          <div style={{display:'flex',alignItems:'center',gap:18}}>
-            <div style={{width:60,height:60,borderRadius:18,background:'rgba(255,255,255,0.92)',
-              display:'flex',alignItems:'center',justifyContent:'center',fontSize:28,
-              boxShadow:'0 4px 20px rgba(37,99,235,0.2)',
-              transform:hov?'scale(1.06) rotate(-2deg)':'scale(1)',transition:'all 0.35s cubic-bezier(0.34,1.56,0.64,1)'
-            }}>🤖</div>
-            <div>
-              <div style={{fontSize:10,fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase',color:'#2563eb',marginBottom:6}}>⭐ Editor's Pick</div>
-              <div style={{fontSize:24,fontWeight:700,letterSpacing:'-0.03em',color:'#09090b',marginBottom:6,fontFamily:'DM Serif Display,serif'}}>Claude by Anthropic</div>
-              <div style={{fontSize:14,fontWeight:300,color:'rgba(60,60,67,0.7)',maxWidth:420,lineHeight:1.55}}>
-                The most thoughtful AI assistant. Deep analysis, nuanced writing, coding help and genuine conversation — built with safety at its core.
-              </div>
-            </div>
-          </div>
-          <div className="btn btn-primary" style={{fontSize:14,flexShrink:0,transform:hov?'translateY(-2px)':'none',transition:'transform 0.3s'}}>
-            Open Claude →
-          </div>
-        </div>
-      </div>
-    </a>
-  );
-}
-
-/* ════════════════════════════
-   SECTION
-════════════════════════════ */
-function Section({cat,q}){
-  const ref=useRef();
-  const isAlt=parseInt(cat.num)%2===0;
-  const filtered=useMemo(()=>{
-    if(!q)return cat.sites;
-    const lq=q.toLowerCase();
-    return cat.sites.filter(s=>s.n.toLowerCase().includes(lq)||s.d.toLowerCase().includes(lq)||s.t.toLowerCase().includes(lq));
-  },[q,cat]);
-
-  if(q&&filtered.length===0)return null;
-
-  const headings={
-    'Search':'Find anything.',
-    'Social':'Connect the world.',
-    'News':'Stay informed.',
-    'Shopping':'Buy anything.',
-    'Stream':'Watch. Listen.',
-    'Learn':'Grow your mind.',
-    'Tools':'Work smarter.',
-    'Finance':'Manage money.',
-    'Travel':'Explore the world.',
-    'Gaming':'Play.',
-    'AI':'The future is here.',
-    'Health':'Live well.',
-  };
-
-  return(
-    <section id={cat.id} className={isAlt?'section-alt':''} style={{padding:'104px 0',position:'relative',overflow:'hidden'}}>
-      {/* Background orb */}
-      <div style={{position:'absolute',top:'10%',right:isAlt?'auto':'5%',left:isAlt?'5%':'auto',
-        width:400,height:400,borderRadius:'50%',
-        background:`radial-gradient(circle,${cat.accent}06,transparent 65%)`,
-        filter:'blur(60px)',pointerEvents:'none'}}/>
-
-      <div style={{maxWidth:1200,margin:'0 auto',padding:'0 32px'}}>
-        <div className="sec-layout" ref={ref}>
-          {/* Left sidebar */}
-          <div className="sec-sticky">
-            <div className="rv-l" style={{position:'relative'}}>
-              <span className="sec-num">{cat.num}</span>
-              <div style={{fontSize:10,fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',
-                color:cat.accent,display:'flex',alignItems:'center',gap:8,marginBottom:12}}>
-                <span style={{display:'inline-block',width:22,height:1,background:cat.accent,opacity:0.7}}></span>
-                {cat.num} — {cat.label}
-              </div>
-              <h2 className="sec-title" style={{marginBottom:16}}>{headings[cat.label]}</h2>
-              <p style={{fontSize:14,fontWeight:300,color:'#71717a',lineHeight:1.65,marginBottom:20}}>
-                {filtered.length} site{filtered.length!==1?'s':''} curated
-              </p>
-              {/* Progress bar */}
-              <div style={{height:2,background:'rgba(0,0,0,0.07)',borderRadius:2,width:80,overflow:'hidden'}}>
-                <div style={{height:'100%',background:cat.accent,borderRadius:2,width:`${(filtered.length/cat.sites.length)*100}%`}}/>
-              </div>
-            </div>
-          </div>
-
-          {/* Right content */}
-          <div>
-            {cat.id==='ai'&&!q&&<FeaturedAI/>}
-            <div className="cards-3">
-              {filtered.filter(s=>!s.featured||q).map((site,i)=>(
-                <SiteCard key={site.n} site={site} accent={cat.accent} idx={i}/>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ════════════════════════════
-   SEPARATOR
-════════════════════════════ */
-function Sep({label}){
-  return(
-    <div style={{display:'flex',alignItems:'center',gap:20,padding:'0 32px',maxWidth:1200,margin:'0 auto'}}>
-      <div className="divider" style={{flex:1}}/>
-      <span style={{fontSize:10,fontWeight:700,letterSpacing:'0.14em',textTransform:'uppercase',
-        color:'rgba(60,60,67,0.3)',whiteSpace:'nowrap'}}>{label}</span>
-      <div className="divider" style={{flex:1}}/>
-    </div>
-  );
-}
-
-/* ════════════════════════════
-   ACCENT BAND
-════════════════════════════ */
-function AccentBand(){
-  return(
-    <div style={{background:'rgba(37,99,235,0.06)',borderTop:'1px solid rgba(37,99,235,0.12)',borderBottom:'1px solid rgba(37,99,235,0.12)',
-      padding:'16px 32px',display:'flex',alignItems:'center',justifyContent:'space-between',backdropFilter:'blur(8px)'}}>
-      <p style={{fontSize:13,fontWeight:500,color:'rgba(60,60,67,0.7)'}}>🎓 The world's best learning platforms — one click away</p>
-      <a href="#learning" className="btn btn-ghost" style={{fontSize:12,padding:'6px 16px'}}>Explore learning →</a>
-    </div>
-  );
-}
-
-/* ════════════════════════════
-   FOOTER
-════════════════════════════ */
-function Footer(){
-  return(
-    <footer className="footer-bg" style={{padding:'80px 32px 48px'}}>
-      <div style={{maxWidth:1200,margin:'0 auto'}}>
-        <div className="footer-grid" style={{display:'grid',gridTemplateColumns:'1.4fr 1fr 1fr 1fr',gap:52,marginBottom:56}}>
-          <div className="footer-brand">
-            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:16}}>
-              <div style={{width:32,height:32,borderRadius:10,background:'linear-gradient(135deg,#2563eb,#7c3aed)',
-                display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,color:'white',fontWeight:700,
-                fontFamily:'DM Serif Display,serif',boxShadow:'0 2px 8px rgba(37,99,235,0.35)'}}>P</div>
-              <span style={{fontSize:19,fontWeight:700,letterSpacing:'-0.04em'}}>
-                <span style={{color:'#09090b'}}>Play</span><span style={{color:'#2563eb'}}>way</span>
-              </span>
-            </div>
-            <p style={{fontSize:13.5,fontWeight:300,color:'rgba(60,60,67,0.6)',lineHeight:1.72,maxWidth:230,letterSpacing:'-0.005em'}}>
-              Your curated gateway to the entire internet — every category, beautifully organised in one destination.
-            </p>
-          </div>
-          {[
-            {h:'Explore',links:['Search','Social','News','Shopping','Entertainment','Learning']},
-            {h:'More',links:['Tools','Finance','Travel','Gaming','AI','Health']},
-            {h:'Top Picks',links:['Claude AI ✦','Google','YouTube','Spotify','GitHub','Netflix']},
-          ].map((col,i)=>(
-            <div key={i}>
-              <h5 style={{fontSize:9.5,fontWeight:700,letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(60,60,67,0.35)',marginBottom:18}}>{col.h}</h5>
-              {col.links.map((l,j)=>(
-                <a key={j} href="#" style={{display:'block',fontSize:14,fontWeight:300,color:'rgba(60,60,67,0.62)',
-                  marginBottom:10,letterSpacing:'-0.01em',transition:'color 0.2s'}}
-                  onMouseEnter={e=>e.target.style.color='#09090b'}
-                  onMouseLeave={e=>e.target.style.color='rgba(60,60,67,0.62)'}
-                >{l}</a>
-              ))}
-            </div>
-          ))}
-        </div>
-        <div style={{paddingTop:28,borderTop:'1px solid rgba(0,0,0,0.07)',
-          display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:12}}>
-          <span style={{fontSize:12,fontWeight:300,color:'rgba(60,60,67,0.42)'}}>© 2026 Playway — Everything, everywhere.</span>
-          <div style={{display:'flex',alignItems:'center',gap:7,fontSize:10,fontWeight:600,
-            color:'rgba(60,60,67,0.42)',border:'1px solid rgba(0,0,0,0.08)',borderRadius:980,padding:'5px 13px'}}>
-            <div className="live-dot" style={{width:6,height:6}}></div>All links verified
-          </div>
-          <span style={{fontSize:12,fontWeight:300,color:'rgba(60,60,67,0.42)'}}>Made with ✦ for the curious</span>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-/* ════════════════════════════
-   NO RESULTS
-════════════════════════════ */
-function NoResults({q}){
-  return(
-    <div style={{textAlign:'center',padding:'120px 24px'}}>
-      <div style={{fontSize:52,marginBottom:18}}>🔍</div>
-      <div style={{fontSize:22,fontWeight:600,letterSpacing:'-0.02em',color:'#09090b',marginBottom:10,fontFamily:'DM Serif Display,serif'}}>No results for "{q}"</div>
-      <div style={{fontSize:15,color:'rgba(60,60,67,0.55)'}}>Try a different keyword, site name or category.</div>
-    </div>
-  );
-}
-
-/* ════════════════════════════
-   APP
-════════════════════════════ */
-function App(){
-  const [q,setQ]=useState('');
-  const [scrolled,setScrolled]=useState(false);
-
-  /* progress + nav scroll */
-  useEffect(()=>{
-    const onScroll=()=>{
-      const pg=document.getElementById('pg');
-      const pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
-      if(pg)pg.style.width=pct+'%';
-      setScrolled(window.scrollY>24);
+/* ════════════ STATS COUNT-UP ════════════ */
+if (!reduceMotion){
+  const so = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    so.disconnect();
+    const els = $$('.stat-num'), start = performance.now(), dur = 1400;
+    const tick = now => {
+      const p = Math.min((now - start) / dur, 1), k = 1 - Math.pow(1 - p, 3);
+      els.forEach(el => { el.textContent = Math.round(k * +el.dataset.v); });
+      if (p < 1) requestAnimationFrame(tick);
     };
-    window.addEventListener('scroll',onScroll,{passive:true});
-    return()=>window.removeEventListener('scroll',onScroll);
-  },[]);
-
-  /* intersection reveal */
-  useEffect(()=>{
-    const obs=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
-    },{threshold:0.07});
-    const update=()=>document.querySelectorAll('.rv,.rv-l').forEach(el=>obs.observe(el));
-    update();
-    const mo=new MutationObserver(update);
-    mo.observe(document.body,{childList:true,subtree:true});
-    return()=>{obs.disconnect();mo.disconnect()};
-  },[]);
-
-  /* cursor events after mount */
-  useEffect(()=>{
-    const dot=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
-    if(!dot||!ring)return;
-    let cx=0,cy=0,rx=0,ry=0;
-    const move=e=>{cx=e.clientX;cy=e.clientY;dot.style.left=cx+'px';dot.style.top=cy+'px'};
-    document.addEventListener('mousemove',move,{passive:true});
-    const tick=()=>{
-      rx+=(cx-rx)*.11;ry+=(cy-ry)*.11;
-      ring.style.left=rx+'px';ring.style.top=ry+'px';
-      requestAnimationFrame(tick);
-    };tick();
-    const over=()=>{ring.style.width='52px';ring.style.height='52px';ring.style.borderRadius='12px';ring.style.borderColor='rgba(37,99,235,0.55)'};
-    const out=()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderRadius='50%';ring.style.borderColor='rgba(37,99,235,0.4)'};
-    document.querySelectorAll('a,button,.x-card').forEach(el=>{el.addEventListener('mouseenter',over);el.addEventListener('mouseleave',out)});
-    return()=>document.removeEventListener('mousemove',move);
-  },[]);
-
-  const filtered=useMemo(()=>{
-    if(!q)return CATS;
-    const lq=q.toLowerCase();
-    return CATS.filter(c=>c.label.toLowerCase().includes(lq)||c.sites.some(s=>s.n.toLowerCase().includes(lq)||s.d.toLowerCase().includes(lq)||s.t.toLowerCase().includes(lq)));
-  },[q]);
-
-  const hasResults=filtered.length>0;
-
-  return(
-    <>
-      <Nav q={q} setQ={setQ} scrolled={scrolled}/>
-      <Hero/>
-      <Marquee/>
-      <Stats/>
-
-      {hasResults
-        ? filtered.map((cat,i)=>(
-            <React.Fragment key={cat.id}>
-              {i>0&&<Sep label={cat.label}/>}
-              {i===5&&<AccentBand/>}
-              <Section cat={cat} q={q}/>
-            </React.Fragment>
-          ))
-        : <NoResults q={q}/>
-      }
-
-      <Footer/>
-    </>
-  );
+    requestAnimationFrame(tick);
+  });
+  so.observe($('#stats'));
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+/* ════════════ ACTIVE CATEGORY IN NAV ════════════ */
+const navLinks = $('#navLinks');
+function setActive(id){
+  $$('a', navLinks).forEach(a => {
+    const on = a.dataset.id === id;
+    a.classList.toggle('active', on);
+    on ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current');
+    if (on && navLinks.scrollWidth > navLinks.clientWidth){
+      navLinks.scrollTo({ left: a.offsetLeft - navLinks.clientWidth / 2 + a.offsetWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+  });
+}
+const spy = new IntersectionObserver(entries => entries.forEach(e => {
+  if (e.isIntersecting) setActive(e.target.id === 'top' ? null : e.target.id);
+}), { rootMargin: '-40% 0px -55% 0px' });
+[$('#top'), ...$$('section.cat[id]:not(#favourites)')].forEach(s => spy.observe(s));
+// mouse wheel scrolls the category bar sideways when it overflows
+navLinks.addEventListener('wheel', e => {
+  if (navLinks.scrollWidth <= navLinks.clientWidth || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+  navLinks.scrollLeft += e.deltaY; e.preventDefault();
+}, { passive: false });
+
+/* ════════════ HERO PARALLAX + CUSTOM CURSOR (mouse only) ════════════ */
+if (finePointer && !reduceMotion){
+  const hero = $('#top');
+  let pTick = false, px = 0.5, py = 0.5;
+  addEventListener('pointermove', e => {
+    px = e.clientX / innerWidth; py = e.clientY / innerHeight;
+    if (pTick || scrollY > innerHeight) return;
+    pTick = true;
+    requestAnimationFrame(() => {
+      hero.style.setProperty('--mx', (px - 0.5).toFixed(3));
+      hero.style.setProperty('--my', (py - 0.5).toFixed(3));
+      pTick = false;
+    });
+  }, { passive: true });
+
+  const dot = $('#cursor'), ring = $('#cursor-ring');
+  root.classList.add('has-cursor', 'cursor-out');
+  let cx = -100, cy = -100, rx = -100, ry = -100, running = false;
+  const loop = () => {
+    rx += (cx - rx) * 0.14; ry += (cy - ry) * 0.14;
+    ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    if (Math.abs(cx - rx) + Math.abs(cy - ry) > 0.5) requestAnimationFrame(loop); else running = false;
+  };
+  addEventListener('pointermove', e => {
+    cx = e.clientX; cy = e.clientY;
+    dot.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
+    root.classList.remove('cursor-out');
+    if (!running){ running = true; requestAnimationFrame(loop); }
+  }, { passive: true });
+  document.addEventListener('pointerover', e => ring.classList.toggle('hot', !!e.target.closest('a,button,input')), { passive: true });
+  document.addEventListener('mouseleave', () => root.classList.add('cursor-out'));
+  addEventListener('pointerdown', () => dot.classList.add('down'));
+  addEventListener('pointerup', () => dot.classList.remove('down'));
+}
 </script>
 </body>
 </html>
